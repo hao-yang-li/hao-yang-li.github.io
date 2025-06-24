@@ -4,7 +4,11 @@ layout: homepage
 
 ## About Me
 
-I am a Ph.D. student at ...
+I am an undergraduate student at Hong Kong Baptist University (HKBU), pursuing a major in **Sociology** and a minor in **Computer Science**. My studies have provided rigorous training in sociological theory and research methods, complemented by extensive coursework in computer science with a focus on **Artificial Intelligence (AI)**.
+
+Driven by a strong conviction in the transformative potential of **interdisciplinary research**, I am passionate about exploring the convergence of sociology and AI in the era of big data and intelligent technologies. Currently, I serve as a **Research Intern** at Tsinghua University’s Future Intelligence Lab, where I focus on **Large Language Model (LLM)-driven agents**. I am particularly interested in how these agents can enable novel insights into **social simulations** and complex societal dynamics.
+
+<span style="color:darkred;">I am actively seeking **M.Phil./Ph.D. opportunities** (Fall 2026 intake) to further develop my research at the intersection of computational social science and LLM Agent.</span>
 
 ## Research Interests
 
