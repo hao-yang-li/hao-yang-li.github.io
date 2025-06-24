@@ -4,7 +4,7 @@ main:
    authors: Qingbin Zeng, Ruotong Zhao, Jinzhu Mao, <ins><strong>Haoyang Li</strong></ins>, Fengli Xu, Yong Li
    pagelink: https://arxiv.org/abs/2506.05981
    pdf: https://arxiv.org/pdf/2506.05981
-   abs:  'We proposed <strong>CrimeMind</strong>, a <strong>novel LLM-driven Agent-Based Modeling (ABM) framework</strong> for urban crime simulation. Integrating criminology/sociology theories into agent design, it <strong>improves crime hotspot prediction and spatial distribution accuracy by 24%<strong> versus leading traditional ABM and deep learning baselines.'
+   abs:  'We proposed <strong>CrimeMind</strong>, a <strong>novel LLM-driven Agent-Based Modeling (ABM) framework</strong> for urban crime simulation. Integrating criminology/sociology theories into agent design, it <strong>improves crime hotspot prediction and spatial distribution accuracy by 24%<strong> versus traditional ABM and deep learning baselines.'
    #conference: Temporarily confidential due to the review policy 
    #conference_short:
    code: https://anonymous.4open.science/r/CrimeMind-EB3E
