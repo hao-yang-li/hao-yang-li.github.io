@@ -8,7 +8,7 @@ I am an undergraduate student at Hong Kong Baptist University (HKBU), pursuing a
 
 Driven by a strong conviction in the transformative potential of **interdisciplinary research**, I am passionate about exploring the convergence of sociology and AI in the era of big data and intelligent technologies. Currently, I serve as a **Research Intern** at Tsinghua University’s Future Intelligence Lab, where I focus on **Large Language Model (LLM)-driven agents**. I am particularly interested in how these agents can enable novel insights into **social simulations** and complex societal dynamics.
 
-<span style="color:darkred;">I am actively seeking **M.Phil./Ph.D. opportunities** (Fall 2026 intake) to further develop my research at the intersection of computational social science and LLM Agent.</span>
+<span style="color:#E4002B; font-weight: bold;;">I am actively seeking M.Phil./Ph.D. opportunities (Fall 2026 intake) to further develop my research at the intersection of computational social science and LLM Agent.</span>
 
 ## Research Interests
 
