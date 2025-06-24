@@ -4,7 +4,9 @@ main:
     authors: Qingbin Zeng, Ruotong Zhao, Jinzhu Mao, </ins><strong>Haoyang Li</strong></ins>, Fengli Xu, Yong Li
     pagelink: https://arxiv.org/abs/2506.05981
     pdf: https://arxiv.org/pdf/2506.05981
+    conference: Temporarily confidential due to the review policy 
+    #conference_short:
     code: https://anonymous.4open.science/r/CrimeMind-EB3E
     bibtex: ./assets/bib/crimemind.bib
     image: ./assets/img/teaser_example_2.png
-    notes: under review
+    notes: Under Review
