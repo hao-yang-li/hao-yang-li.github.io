@@ -3,7 +3,7 @@
 <h4 style="margin:0 10px 0;">Academic Honors</h4>
 
 <ul style="margin:0 0 5px;">
-  <li><a href="https://ar.hkbu.edu.hk/student-services/academic-results/academic-honours"><autocolor><strong>President's Honor Roll, Hong Kong Baptist University</strong> (Semester 1, 2022-2023; Semester 1&2, 2023-2024; Semester 1, 2024-2025)</autocolor></a></li>
+  <li><a href="https://ar.hkbu.edu.hk/student-services/academic-results/academic-honours"><autocolor><strong>President's Honor Roll</strong>, Hong Kong Baptist University (Semester 1, 2022-2023; Semester 1&2, 2023-2024; Semester 1, 2024-2025)</autocolor></a></li>
   <li><a href="http://iccv2021.thecvf.com/"><autocolor>IEEE/CVF International Conference on Computer Vision (ICCV) 2021</autocolor></a></li>
   <li><a href="https://eccv2022.ecva.net/"><autocolor>European Conference on Computer Vision (ECCV) 2022</autocolor></a></li>
 </ul>
