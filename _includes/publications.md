@@ -5,7 +5,6 @@
   .publications .abs {
     font-size: 0.9em;    
     padding-left: 25px;  
-    padding-right: 25px; 
   }
 </style>
 <ol class="bibliography">
