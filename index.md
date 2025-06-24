@@ -14,8 +14,11 @@ For more details, please see my <a href="assets/LI_Haoyang_CV_20250624.pdf" targ
 
 ## Research Interests
 
-- **Computer Vision:** image recognition, image generation, video captioning
-- **Machine Learning:** meta-learning, incremental learning, transfer learning
+- **Computational Social Science & LLM Agent**: Sociological theory + LLM agents, LLM-based multi-agent systems, LLM for social simulation
+- **Quantitative Sociology**: Social statistics, Hypothesis testing, Regression models
+- **Social Stratification**: Social capital, Cultural reproduction
+- **Social Networks**: Structure of social networks (structure hole, tie strength, etc.)
+
 
 ## News
 
