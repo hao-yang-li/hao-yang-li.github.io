@@ -27,7 +27,7 @@ For more details, please see my <a href="assets/LI_Haoyang_CV_20250624.pdf" targ
 - **[Mar. 2025]** Joined <a href="https://fi.ee.tsinghua.edu.cn/" target="_blank" rel="noopener noreferrer">Future Intelligence Lab, Tsinghua University</a> as a **research intern**.
 
 {% include_relative _includes/publications.md %}
-{% include_relative _includes/Selected Project.md %}
-{% include_relative _includes/Awards & Honors.md %}
+{% include_relative _includes/project.md %}
+{% include_relative _includes/awards.md %}
 
 #{% include_relative _includes/services.md %}
