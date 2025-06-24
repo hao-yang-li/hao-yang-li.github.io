@@ -20,6 +20,7 @@
       <div class="author">{{ link.authors }}</div>
       {% if link.conference %} 
       <div class="periodical"><em>{{ link.conference }}</em>
+      {% endif %}
       </div>
     <div class="links">
       {% if link.pdf %} 
