@@ -1,12 +1,12 @@
 <h2 id="projects" style="margin: 2px 0px -15px;">Selected Project</h2>
 
-<div class="projects">
+<div class="publications">
 <ol class="bibliography">
 
 {% for link in site.data.projects.main %}
 
 <li>
-<div class="proj-row">
+<div class="pub-row">
   <div class="col-sm-3 abbr" 
      style="position: relative;padding-right: 15px;padding-left: 15px; height: 200px; overflow: hidden;">
     {% if link.image %} 
@@ -17,13 +17,13 @@
     {% endif %}
   </div>
   <div class="col-sm-9" style="position: relative;padding-right: 15px;padding-left: 20px;">
-      <div class="title1"><a href="{{ link.pagelink }}" target="_blank" rel="noopener noreferrer">{{ link.title }}</a></div>
-      <div class="author1">{{ link.authors }}</div>
+      <div class="title"><a href="{{ link.pagelink }}" target="_blank" rel="noopener noreferrer">{{ link.title }}</a></div>
+      <div class="author">{{ link.authors }}</div>
       {% if link.conference %} 
-      <div class="periodical1"><em>{{ link.conference }}</em>
+      <div class="periodical"><em>{{ link.conference }}</em>
       </div>
       {% endif %}
-    <div class="links1">
+    <div class="links">
       {% if link.pdf %} 
       <a href="{{ link.pdf }}" class="btn btn-sm z-depth-0" role="button" target="_blank" rel="noopener noreferrer" style="font-size:12px;">PDF</a>
       {% endif %}
