@@ -1,6 +1,13 @@
 <h2 id="publications" style="margin: 2px 0px -15px;">Publication</h2>
 
 <div class="publications">
+<style>
+  .publications .abs {
+    font-size: 0.9em;    
+    padding-left: 25px;  
+    padding-right: 25px; 
+  }
+</style>
 <ol class="bibliography">
 
 {% for link in site.data.publications.main %}
@@ -22,7 +29,7 @@
       <div class="periodical"><em>{{ link.conference }}</em>
       </div>
       {% endif %}
-    <pre class="abs"><code>{{ link.abs }}</code></pre>
+    <div class="abs">{{ link.abs }}</div>
     <div class="links">
       {% if link.pdf %} 
       <a href="{{ link.pdf }}" class="btn btn-sm z-depth-0" role="button" target="_blank" rel="noopener noreferrer" style="font-size:12px;">PDF</a>
