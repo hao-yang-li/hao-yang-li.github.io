@@ -1,7 +1,7 @@
 <h2 id="projects" style="margin: 2px 0px -15px;">Selected Project</h2>
 
 <div class="projects">
-<ol class="bibliography">
+<ol class="bibliography1">
 
 {% for link in site.data.projects.main %}
 
