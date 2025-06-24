@@ -4,6 +4,7 @@ main:
    authors: <ins><strong>Haoyang Li</strong></ins>
    pagelink:  ./assets/files/SOCI4035_Term Paper.pdf
    pdf: ./assets/files/SOCI4035_Term Paper.pdf
+   abs: '<strong>Quantitatively investigated</strong> stratifying effects of cultural capital (paternal education, leadership capital) on higher education access inequality, leveraging nationally representative <strong>CFPS 2020 data</strong> through <strong>ordinal logistic regression modeling</strong>. Proposed <strong>evidence-based policy interventions</strong> targeting institutional barriers perpetuating educational disparities'
    #conference: 
    #conference_short:
    #code: https://anonymous.4open.science/r/CrimeMind-EB3E
