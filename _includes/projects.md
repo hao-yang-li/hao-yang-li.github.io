@@ -7,7 +7,7 @@
 
 <li>
 <div class="proj-row">
-  <div class="col-sm-30 abbr" style="position: relative;padding-right: 15px;padding-left: 15px;">
+  <div class="col-sm-3 abbr" style="position: relative;padding-right: 15px;padding-left: 15px;">
     {% if link.image %} 
     <img src="{{ link.image }}" class="teaser img-fluid z-depth-1" style="width=100;height=40%">
     {% if link.conference_short %} 
@@ -15,7 +15,7 @@
     {% endif %}
     {% endif %}
   </div>
-  <div class="col-sm-90" style="position: relative;padding-right: 15px;padding-left: 20px;">
+  <div class="col-sm-9" style="position: relative;padding-right: 15px;padding-left: 20px;">
       <div class="title1"><a href="{{ link.pagelink }}" target="_blank" rel="noopener noreferrer">{{ link.title }}</a></div>
       <div class="author1">{{ link.authors }}</div>
       {% if link.conference %} 
