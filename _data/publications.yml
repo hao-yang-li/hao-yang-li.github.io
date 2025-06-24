@@ -1,5 +1,14 @@
 main:
 
+ - title: Continual Learning for Abdominal Multi-Organ and Tumor Segmentation
+    authors: Qingbin Zeng, Ruotong Zhao, Jinzhu Mao, </ins><strong>Haoyang Li</strong></ins>, Fengli Xu, Yong Li
+    pdf: https://arxiv.org/abs/2506.05981
+    code: https://anonymous.4open.science/r/CrimeMind-EB3E
+    bibtex: ./assets/bib/crimemind.bib
+    image: ./assets/img/teaser_example_2.png
+    notes: under review
+
+<!--
   - title: Continual Learning for Abdominal Multi-Organ and Tumor Segmentation
     authors: Yixiao Zhang, Xinyi Li, Huimiao Chen, Alan Yuille, <strong>Yaoyao Liu*</strong>, Zongwei Zhou* (*Corresponding authors)
     conference_short: MICCAI
@@ -9,7 +18,7 @@ main:
     bibtex: https://bib.yliu.me/MICCAI23.txt
     image: ./assets/img/teaser_example_2.png
     notes: Early Accept
-
+    
   - title: "Mnemonics Training: Multi-Class Incremental Learning without Forgetting"
     authors: <strong>Yaoyao Liu</strong>, Yuting Su, An-An Liu, Bernt Schiele, Qianru Sun
     conference_short: CVPR
@@ -20,3 +29,4 @@ main:
     bibtex: https://class-il.mpi-inf.mpg.de/mnemonics/
     notes: Oral Presentation
     image: ./assets/img/teaser_example.png
+-->
