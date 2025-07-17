@@ -22,7 +22,7 @@ For more details, please see my <a href="assets/LI_Haoyang_CV_20250705.pdf" targ
 
 ## News
 
-- **[Jul. 2025]** Joined as a **research assistant** in  <a href="https://hss.cuhk.edu.cn/en/teacher/1494" target="_blank" rel="noopener noreferrer">Prof. Zhanzhan Zhao</a>, Division of Computational Social Science, School of Humanities and Social Science, CUHKSZ's research group, focusing on **LLM agents and social segregation simulation**.
+- **[Jul. 2025]** Joined as a **research assistant** in  <a href="https://hss.cuhk.edu.cn/en/teacher/1494" target="_blank" rel="noopener noreferrer">Prof. Zhanzhan Zhao, Division of Computational Social Science, HSS, CUHKSZ </a>'s research group, focusing on **LLM agents and social segregation simulation**.
 - **[Jun. 2025]** A coauthored paper (under review) focused on **LLM agents and crime simulation** is available on <a href="https://arxiv.org/abs/2506.05981" target="_blank" rel="noopener noreferrer">arXiv:2506.05981</a>.
 - **[May 2025]** Will start the **honors project** under the supervision of <a href="https://socweb.hkbu.edu.hk/people/academic-staff/jiang-jin.html" target="_blank" rel="noopener noreferrer">Prof. Jin Jiang</a>.
 - **[Mar. 2025]** Joined <a href="https://fi.ee.tsinghua.edu.cn/" target="_blank" rel="noopener noreferrer">Future Intelligence Lab, Tsinghua University</a> as a **research intern**.
