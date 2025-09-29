@@ -11,3 +11,12 @@ main:
    bibtex: ./assets/bib/crimemind.bib
    image: ./assets/img/crimemind.png
    notes: Under Review
+
+- title: 'The Emergence of Altruism in Large-Language-Model Agents Society'
+  authors: <ins><strong>Haoyang Li</strong></ins>, Xiao Jia, Zhanzhan Zhao
+  pagelink: https://arxiv.org/abs/2509.22537
+  pdf: https://arxiv.org/pdf/2509.22537
+  abs: 'We introduce a <strong>Schelling-variant urban migration model</strong> to create a large-scale social dilemma for over 200 LLM agents, investigating the emergence of altruism. Our work provides the first evidence of a fundamental behavioral divide, identifying two archetypes: <strong>"Adaptive Egoists,"</strong> who respond to social norms, and <strong>"Altruistic Optimizers,"</strong> who inherently prioritize collective good. We show social interaction can increase altruistic actions significantly in egoistic models, proposing that the choice of LLM for social simulation is a choice of theoretical foundation.'
+  bibtex: ./assets/bib/altruism.bib
+  image: ./assets/img/altruism.png
+  notes: Preprint
