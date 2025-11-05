@@ -12,7 +12,7 @@ Priviously, I serve as a **Research Intern** at Tsinghua University’s <a href=
 
 For more details, please see my <a href="assets/LI_Haoyang_CV_20250916.pdf" target="_blank" rel="noopener noreferrer">CV</a> _(last updated 29 Sep, 2025)_.
 
-<span style="color:#E4002B; font-weight: bold;">I am actively seeking M.Phil./Ph.D. opportunities (Fall 2026 intake) to further develop my research at the intersection of computational social science and LLM Agent.</span>
+<span style="color:#E4002B; font-weight: bold;">I am actively seeking M.Phil./Ph.D. opportunities (Fall 2026 intake) to further develop my research at the intersection of computational social science and LLM Agent.</span> 
 
 ## Research Interests
 
