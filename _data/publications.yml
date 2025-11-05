@@ -1,22 +1,21 @@
 main:
+  - title: 'CrimeMind: Simulating Urban Crime with Multi-Modal LLM Agents'
+    authors: Qingbin Zeng, Ruotong Zhao, Jinzhu Mao, <ins><strong>Haoyang Li</strong></ins>, Fengli Xu, Yong Li
+    pagelink: https://arxiv.org/abs/2506.05981
+    pdf: https://arxiv.org/pdf/2506.05981
+    abs: 'We proposed <strong>CrimeMind</strong>, a <strong>novel LLM-driven Agent-Based Modeling (ABM) framework</strong> for urban crime simulation. Integrating criminology and sociology theories into agent design, it <strong>improves crime hotspot prediction and spatial distribution accuracy by 24%</strong> versus traditional ABM and deep learning baselines.'
+    #conference: Temporarily confidential due to the review policy
+    #conference_short:
+    code: https://anonymous.4open.science/r/CrimeMind-EB3E
+    bibtex: ./assets/bib/crimemind.bib
+    image: ./assets/img/crimemind.png
+    notes: Under Review
 
- - title: 'CrimeMind: Simulating Urban Crime with Multi-Modal LLM Agents'
-   authors: Qingbin Zeng, Ruotong Zhao, Jinzhu Mao, <ins><strong>Haoyang Li</strong></ins>, Fengli Xu, Yong Li
-   pagelink: https://arxiv.org/abs/2506.05981
-   pdf: https://arxiv.org/pdf/2506.05981
-   abs:  'We proposed <strong>CrimeMind</strong>, a <strong>novel LLM-driven Agent-Based Modeling (ABM) framework</strong> for urban crime simulation. Integrating criminology and sociology theories into agent design, it <strong>improves crime hotspot prediction and spatial distribution accuracy by 24%</strong> versus traditional ABM and deep learning baselines.'
-   #conference: Temporarily confidential due to the review policy 
-   #conference_short:
-   code: https://anonymous.4open.science/r/CrimeMind-EB3E
-   bibtex: ./assets/bib/crimemind.bib
-   image: ./assets/img/crimemind.png
-   notes: Under Review
-
-- title: 'The Emergence of Altruism in Large-Language-Model Agents Society'
-  authors: <ins><strong>Haoyang Li</strong></ins>, Xiao Jia, Zhanzhan Zhao
-  pagelink: https://arxiv.org/abs/2509.22537
-  pdf: https://arxiv.org/pdf/2509.22537
-  abs: 'We introduce a <strong>Schelling-variant urban migration model</strong> to create a large-scale social dilemma for over 200 LLM agents, investigating the emergence of altruism. Our work provides the first evidence of a fundamental behavioral divide, identifying two archetypes: <strong>"Adaptive Egoists,"</strong> who respond to social norms, and <strong>"Altruistic Optimizers,"</strong> who inherently prioritize collective good. We show social interaction can increase altruistic actions significantly in egoistic models, proposing that the choice of LLM for social simulation is a choice of theoretical foundation.'
-  bibtex: ./assets/bib/altruism.bib
-  image: ./assets/img/altruism.png
-  notes: Preprint
+  - title: 'The Emergence of Altruism in Large-Language-Model Agents Society'
+    authors: <ins><strong>Haoyang Li</strong></ins>, Xiao Jia, Zhanzhan Zhao
+    pagelink: https://arxiv.org/abs/2509.22537
+    pdf: https://arxiv.org/pdf/2509.22537
+    abs: 'We introduce a <strong>Schelling-variant urban migration model</strong> to create a large-scale social dilemma for over 200 LLM agents, investigating the emergence of altruism. Our work provides the first evidence of a fundamental behavioral divide, identifying two archetypes: <strong>"Adaptive Egoists,"</strong> who respond to social norms, and <strong>"Altruistic Optimizers,"</strong> who inherently prioritize collective good. We show social interaction can increase altruistic actions significantly in egoistic models, proposing that the choice of LLM for social simulation is a choice of theoretical foundation.'
+    bibtex: ./assets/bib/altruism.bib
+    image: ./assets/img/altruism.png
+    notes: Preprint
