@@ -6,7 +6,7 @@ layout: homepage
 
 I am an undergraduate student at Hong Kong Baptist University (HKBU), pursuing a major in **Sociology** and a minor in **Computer Science**. My studies have provided rigorous training in sociological theory and research methods, complemented by extensive coursework in computer science with a focus on **Artificial Intelligence (AI)**.
 
-Driven by a strong conviction in the transformative potential of **interdisciplinary research**, I am passionate about exploring the convergence of social science and AI in the era of big data and intelligent technologies. I am particularly interested in how these **sociological theories-guided LLM agents** can enable novel insights into **social simulations** and complex societal dynamics.
+Driven by a strong conviction in the transformative potential of **interdisciplinary research**, I am passionate about exploring the convergence of social science and AI in the era of big data and intelligent technologies. I am particularly interested in how these **sociological theories-guided LLM agents** can enable novel insights into **social simulations** and complex societal dynamics that both traditional data-driven machine learning and social science research cannot achieve.
 
 Priviously, I serve as a **Research Intern** at Tsinghua University’s <a href="https://fi.ee.tsinghua.edu.cn/" target="_blank" rel="noopener noreferrer">Future Intelligence Lab</a> under the supervision of <a href="https://fenglixu.github.io/" target="_blank" rel="noopener noreferrer">Prof. Fengli Xu</a>, where I focus on **LLM-driven agents**. I am also currently supervised by <a href="https://hongru94.github.io/" target="_blank" rel="noopener noreferrer">Prof. Hongru Du</a> at <a href="https://engineering.virginia.edu/sie" target="_blank" rel="noopener noreferrer">Department of Systems and Information Engineering, University of Virginia</a> and collaborating with him to focus on the research of **theory-guided LLM agent-based modeling** and exploring its applications in domains including population mobility and public health. Moreover, I am also actively working as a **Research Assistant** to explore LLM Agents that **simulate urban policy planner and human decision-making behavior** under the supervision of <a href="https://sai.cuhk.edu.cn/en/teacher/154" target="_blank" rel="noopener noreferrer">Prof. Zhanzhan Zhao</a>, Joint Assistant Professor, <a href="https://sai.cuhk.edu.cn/en" target="_blank" rel="noopener noreferrer">School of School of Artificial Intelligence</a> & <a href="https://hss.cuhk.edu.cn/en/page/1350" target="_blank" rel="noopener noreferrer">Division of Computational Social Science</a>, <a href="https://www.cuhk.edu.cn/en" target="_blank" rel="noopener noreferrer">The Chinese University of Hong Kong, Shenzhen</a>.
 
@@ -17,11 +17,17 @@ For more details, please see my <a href="assets/Haoyang_Li_CV_20251216.pdf" targ
 ## Research Interests
 
 - **AI for Science & LLM Agents**: Sociological theory + LLM agents, LLM-based multi-agent systems, LLM for social simulation, AI for Science
-- - **Social Networks**: Structure of social networks (structure hole, tie strength, etc.)
+- **Social Networks**: Structure of social networks (structure hole, tie strength, etc.)
+
 <!--
 - **Quantitative Sociology**: Social statistics, Hypothesis testing, Regression models
 - **Social Stratification**: Social capital, Cultural reproduction
 -->
+
+## Research Experience
+- **Research Intern**, _2025.07 - Current_, <a href="https://engineering.virginia.edu/sie" target="_blank" rel="noopener noreferrer">Department of Systems and Information Engineering, University of Virginia</a>, Supervised by <a href="https://hongru94.github.io/" target="_blank" rel="noopener noreferrer">Prof. Hongru Du</a>, Assistant Professor, Co-supervised by <a href="https://senpei-cu.github.io/" target="_blank" rel="noopener noreferrer">Prof. Sen Pei</a>, Assistant Professor, <a href="https://www.publichealth.columbia.edu/" target="_blank" rel="noopener noreferrer">Mailman School of Public Health, Columbia University</a>.
+- **Research Intern**, _2025.03 - Current_,  <a href="https://fi.ee.tsinghua.edu.cn/" target="_blank" rel="noopener noreferrer">Future Intelligence Lab, Tsinghua University</a>, Supervised by  <a href="https://fenglixu.github.io/" target="_blank" rel="noopener noreferrer">Prof. Fengli Xu</a>, Assistant Professor, Co-supervised by <a href="https://sociology.uchicago.edu/directory/james-evans" target="_blank" rel="noopener noreferrer">Prof. James Evans</a>, Max Palevsky Professor, <a href="https://sociology.uchicago.edu/directory/james-evans" target="_blank" rel="noopener noreferrer">Director of Knowledge Lab, University of Chicago</a>.
+- **Research Asssistant**, _2025.07 - 2025.12_, <a href="https://sai.cuhk.edu.cn/en" target="_blank" rel="noopener noreferrer">School of School of Artificial Intelligence, The Chinese University of Hong Kong, Shenzhen</a>, Supervised by <a href="https://sai.cuhk.edu.cn/en/teacher/154" target="_blank" rel="noopener noreferrer">Prof. Zhanzhan Zhao</a>, Assistant Professor.
 
 ## News
 
