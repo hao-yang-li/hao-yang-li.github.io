@@ -12,7 +12,7 @@ I am currently supervised by <a href="https://hongru94.github.io/" target="_blan
 
 For more details, please see my <a href="assets/Haoyang_Li_CV_20251216.pdf" target="_blank" rel="noopener noreferrer">CV</a> _(last updated 16 Dec, 2025)_.
 
-<span style="color:#1C6A35; font-weight: bold;">If you are interested in my work or have potential ideas to explore together, please feel free to <a href="mailto:lihaoyang@email.virginia.edu" target="_blank" rel="noopener noreferrer">email me</a>. I would be happy to discuss further :-)</span> 
+<span style="color:#E4002B; font-weight: bold;">If you are interested in my work or have potential ideas to explore together, please feel free to <a href="mailto:lihaoyang@email.virginia.edu" target="_blank" rel="noopener noreferrer">email me</a>. I would be happy to discuss further :-)</span> 
 
 ## Research Interests
 
