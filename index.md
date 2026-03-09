@@ -39,7 +39,7 @@ For more details, please see my <a href="assets/Haoyang_Li_CV_20251216.pdf" targ
 
 {% include_relative _includes/publications.md %}
 
-{% include_relative _includes/projects.md %}
+<!--{% include_relative _includes/projects.md %}-->
 
 {% include_relative _includes/awards.md %}
 
