@@ -45,4 +45,31 @@ For more details, please see my <a href="assets/Haoyang_Li_CV_20251216.pdf" targ
 
 <!--{% include_relative _includes/services.md %}-->
 
-<a href='https://mapmyvisitors.com/web/1c331'  title='Visit tracker'><img src='https://mapmyvisitors.com/map.png?cl=ffffff&w=300&t=tt&d=9YG5ofCHg5kjXJesSeDanGI_xGQa5W8fPMCIvLX86IA&co=2d78ad&ct=ffffff'/></a>
+<script type='text/javascript' id='mapmyvisitors' src='https://mapmyvisitors.com/map.js?cl=ffffff&w=300&t=tt&d=9YG5ofCHg5kjXJesSeDanGI_xGQa5W8fPMCIvLX86IA&co=2d78ad&ct=ffffff&cmo=3acc3a&cmn=ff5353'></script>
+
+<script>
+window.addEventListener('load', function() {
+    var checkMapLoaded = setInterval(function() {
+        var mapLinks = document.querySelectorAll('a[href*="mapmyvisitors.com"]');
+        
+        if (mapLinks.length > 0) {
+            mapLinks.forEach(function(link) {
+                link.removeAttribute('href');
+                
+                link.style.cursor = 'default';
+                
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation(); 
+                });
+            });
+            
+            clearInterval(checkMapLoaded);
+        }
+    }, 100);
+    
+    setTimeout(function() {
+        clearInterval(checkMapLoaded);
+    }, 10000);
+});
+</script>
