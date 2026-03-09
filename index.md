@@ -46,3 +46,24 @@ For more details, please see my <a href="assets/Haoyang_Li_CV_20251216.pdf" targ
 <!--{% include_relative _includes/services.md %}-->
 <br>
 <script type='text/javascript' id='mapmyvisitors' src='https://mapmyvisitors.com/map.js?cl=ffffff&w=300&t=tt&d=9YG5ofCHg5kjXJesSeDanGI_xGQa5W8fPMCIvLX86IA&co=2d78ad&ct=ffffff&cmo=3acc3a&cmn=ff5353'></script>
+
+<script>
+(function() {
+    var checkLink = setInterval(function() {
+        var mapLink = document.querySelector('a[href*="mapmyvisitors.com"]');
+        
+        if (mapLink) {
+            mapLink.setAttribute('target', '_blank');
+            
+            mapLink.setAttribute('rel', 'noopener noreferrer');
+            
+            clearInterval(checkLink);
+            console.log("Map link updated to open in new tab.");
+        }
+    }, 50);
+
+    setTimeout(function() {
+        clearInterval(checkLink);
+    }, 10000);
+})();
+</script>
