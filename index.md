@@ -44,3 +44,5 @@ For more details, please see my <a href="assets/Haoyang_Li_CV_20251216.pdf" targ
 {% include_relative _includes/awards.md %}
 
 <!--{% include_relative _includes/services.md %}-->
+
+<script type='text/javascript' id='mapmyvisitors' src='https://mapmyvisitors.com/map.js?cl=ffffff&w=a&t=tt&d=9YG5ofCHg5kjXJesSeDanGI_xGQa5W8fPMCIvLX86IA&co=2d78ad&ct=ffffff&cmo=3acc3a&cmn=ff5353'></script>
