@@ -45,39 +45,4 @@ For more details, please see my <a href="assets/Haoyang_Li_CV_20251216.pdf" targ
 
 <!--{% include_relative _includes/services.md %}-->
 
-<script type='text/javascript' id='mapmyvisitors' src='https://mapmyvisitors.com/map.js?cl=ffffff&w=300&t=tt&d=9YG5ofCHg5kjXJesSeDanGI_xGQa5W8fPMCIvLX86IA&co=2d78ad&ct=ffffff&cmo=3acc3a&cmn=ff5353'></script>
-
-<script>
-window.addEventListener('load', function() {
-    // 设置一个定时器，确保地图已经完全加载出来后再执行
-    var checkMapLoaded = setInterval(function() {
-        // 查找所有指向 mapmyvisitors.com 的链接
-        var mapLinks = document.querySelectorAll('a[href*="mapmyvisitors.com"]');
-        
-        if (mapLinks.length > 0) {
-            mapLinks.forEach(function(link) {
-                // 1. 移除 href 属性，这样点击就不会跳转了
-                link.removeAttribute('href');
-                
-                // 2. 将鼠标指针改回默认箭头，而不是手指形状，避免误导用户
-                link.style.cursor = 'default';
-                
-                // 3. 强制阻止点击事件的默认行为（双重保险）
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    // 阻止事件冒泡，防止触发父级元素的点击
-                    e.stopPropagation(); 
-                });
-            });
-            
-            // 找到并处理后，清除定时器停止检查
-            clearInterval(checkMapLoaded);
-        }
-    }, 500); // 每0.5秒检查一次
-    
-    // 设置一个超时，比如10秒后停止检查，防止一直运行消耗资源
-    setTimeout(function() {
-        clearInterval(checkMapLoaded);
-    }, 10000);
-});
-</script>
+<a href='https://mapmyvisitors.com/web/1c331'  title='Visit tracker'><img src='https://mapmyvisitors.com/map.png?cl=ffffff&w=300&t=tt&d=9YG5ofCHg5kjXJesSeDanGI_xGQa5W8fPMCIvLX86IA&co=2d78ad&ct=ffffff'/></a>
