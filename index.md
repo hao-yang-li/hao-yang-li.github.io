@@ -24,7 +24,7 @@ For more details, please see my <a href="assets/Haoyang_Li_CV_20260401.pdf" targ
 - **Social Stratification**: Social capital, Cultural reproduction
 -->
 
-## Research Experience
+## Research Experiences
 <style>
   ul ul {
     margin-bottom: 0px !important;
