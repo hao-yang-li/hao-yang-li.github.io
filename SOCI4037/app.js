@@ -169,6 +169,7 @@ const state = {
     startItem: null,
     startView: null,
   },
+  isFirstLoad: false,
 };
 
 function bootstrap() {
@@ -196,11 +197,14 @@ function load() {
 	      state.items = Array.isArray(data.items) ? data.items.map(normalizeItem) : starterItems;
 	      state.view = data.view || state.view;
 	      state.language = data.language || state.language;
+		  state.isFirstLoad = false;
     } else {
       state.items = starterItems;
+	  state.isFirstLoad = false;
     }
   } catch {
     state.items = starterItems;
+    state.isFirstLoad = false;
   }
   state.items.forEach(cacheImage);
 }
@@ -312,6 +316,10 @@ async function loadRemoteMap() {
   }
 
   applyRemoteData(data.data);
+
+  if (state.isFirstLoad) {
+     fitView(false);
+  } 
   hideLoadingOverlay();
 }
 
@@ -347,6 +355,7 @@ function applyRemoteData(data) {
   updateLanguageUi();
   renderDetailCard();
   draw();
+  saveLocalState();
 }
 
 function showRemoteError(message) {
@@ -501,7 +510,7 @@ function fitView(shouldDraw = true) {
     animateViewTo(target);
   } else {
     setView(target);
-    save();
+    saveLocalState(); 
   }
 }
 
