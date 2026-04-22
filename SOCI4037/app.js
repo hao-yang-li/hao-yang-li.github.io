@@ -529,15 +529,13 @@ function centerAxis() {
 
 function fittedContentView() {
   const minScale = getMinimumScale();
-  const bounds = getContentBounds();
   const display = getDisplaySize();
   const scale = clamp(minScale, ABSOLUTE_MIN_SCALE, MAX_SCALE);
-  const centerX = (bounds.left + bounds.right) / 2;
-  const centerY = (bounds.top + bounds.bottom) / 2;
+  
   return {
     scale,
-    x: display.width / 2 - centerX * scale,
-    y: display.height / 2 - centerY * scale,
+    x: display.width / 2 - AXIS.x * scale,
+    y: display.height / 2 - AXIS.y * scale,
   };
 }
 
@@ -1018,9 +1016,13 @@ function getMinimumScale() {
   const display = getDisplaySize();
   const bounds = getContentBounds();
   const padding = Math.max(80, Math.min(display.width, display.height) * 0.08);
+  
+  const maxDistX = Math.max(Math.abs(AXIS.x - bounds.left), Math.abs(bounds.right - AXIS.x));
+  const maxDistY = Math.max(Math.abs(AXIS.y - bounds.top), Math.abs(bounds.bottom - AXIS.y));
+  
   const fitScale = Math.min(
-    (display.width - padding * 2) / Math.max(1, bounds.right - bounds.left),
-    (display.height - padding * 2) / Math.max(1, bounds.bottom - bounds.top)
+    (display.width - padding * 2) / Math.max(1, maxDistX * 2),
+    (display.height - padding * 2) / Math.max(1, maxDistY * 2)
   );
   return clamp(Math.min(DESKTOP_MIN_SCALE, fitScale), ABSOLUTE_MIN_SCALE, DESKTOP_MIN_SCALE);
 }
