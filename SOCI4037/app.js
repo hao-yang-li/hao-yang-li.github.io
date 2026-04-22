@@ -1465,6 +1465,7 @@ async function toggleEditMode() {
     state.editMode = false;
     closeEditor();
     hideContextMenu();
+    loadRemoteMap(); 
   } else {
     state.editMode = true;
   }
