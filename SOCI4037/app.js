@@ -288,7 +288,11 @@ async function saveRemoteMap() {
   }
   if (!error) {
     state.hasUnsavedRemoteChanges = false;
-    if (shouldNotify) showSaveToast("saved", copy[state.language].savedRemote, 1800);
+    if (shouldNotify) {
+      showSaveToast("saved", copy[state.language].savedRemote, 1800);
+    } else {
+      saveToast.hidden = true; 
+    }
   }
   updateEditToggle();
   return !error;
@@ -387,6 +391,11 @@ function showSaveToast(type, message, timeout = 1800) {
 }
 
 async function waitForPendingSync() {
+  if (!hasPendingSync()) {
+    saveToast.hidden = true;
+    return true;
+  }
+  
   window.clearTimeout(state.remoteSaveTimer);
   state.remoteSaveTimer = null;
   showLoadingOverlay(copy[state.language].savingRemote);
