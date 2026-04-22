@@ -913,7 +913,7 @@ function onWheel(event) {
   zoomAt(pointer.x, pointer.y, factor);
 }
 
-ffunction onContextMenu(event) {
+function onContextMenu(event) {
   event.preventDefault(); 
   if (!state.editMode) return;
 
