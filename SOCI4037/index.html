@@ -1,4 +1,97 @@
-Carnivalesque Map
-编辑中 ⌂ − 100% +
-导出 JSON 导入 JSON
-右键空白处新建 item。滚轮缩放，拖动画布平移。
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Carnivalesque Map</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="toolbar" aria-label="地图工具栏">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>Carnivalesque Map</span>
+        </div>
+        <div class="tool-group" role="group" aria-label="编辑控制">
+          <button id="editToggle" class="tool-button active" type="button" aria-pressed="true" title="开启或关闭编辑模式">编辑中</button>
+          <button id="fitButton" class="icon-button" type="button" title="适应画面" aria-label="适应画面">⌂</button>
+          <button id="zoomOutButton" class="icon-button" type="button" title="缩小" aria-label="缩小">−</button>
+          <output id="zoomLabel" class="zoom-label" aria-live="polite">100%</output>
+          <button id="zoomInButton" class="icon-button" type="button" title="放大" aria-label="放大">+</button>
+        </div>
+        <div class="tool-group" role="group" aria-label="数据操作">
+          <button id="exportButton" class="tool-button" type="button">导出 JSON</button>
+          <label class="tool-button file-button" for="importInput">导入 JSON</label>
+          <input id="importInput" type="file" accept="application/json,.json">
+        </div>
+      </header>
+
+      <section class="stage-wrap" aria-label="坐标轴画布">
+        <canvas id="mapCanvas"></canvas>
+        <div id="hint" class="hint">右键空白处新建 item。滚轮缩放，拖动画布平移。</div>
+        <div id="contextMenu" class="context-menu" hidden>
+          <button id="addHereButton" type="button">在这里新建 item</button>
+        </div>
+      </section>
+    </main>
+
+    <aside id="editor" class="editor-panel" aria-label="Item 编辑面板" hidden>
+      <form id="itemForm">
+        <div class="editor-head">
+          <h2>编辑 item</h2>
+          <button id="closeEditorButton" class="icon-button" type="button" title="关闭编辑面板" aria-label="关闭编辑面板">×</button>
+        </div>
+
+        <label>
+          <span>文字</span>
+          <input id="labelInput" name="label" type="text" autocomplete="off">
+        </label>
+
+        <label>
+          <span>跳转链接</span>
+          <input id="urlInput" name="url" type="url" placeholder="https://example.com">
+        </label>
+
+        <div class="field-grid">
+          <label>
+            <span>X</span>
+            <input id="xInput" name="x" type="number" step="1">
+          </label>
+          <label>
+            <span>Y</span>
+            <input id="yInput" name="y" type="number" step="1">
+          </label>
+        </div>
+
+        <div class="field-grid">
+          <label>
+            <span>宽度</span>
+            <input id="widthInput" name="width" type="number" min="40" max="600" step="5">
+          </label>
+          <label>
+            <span>高度</span>
+            <input id="heightInput" name="height" type="number" min="30" max="420" step="5">
+          </label>
+        </div>
+
+        <label>
+          <span>旋转</span>
+          <input id="rotationInput" name="rotation" type="range" min="-80" max="80" step="1">
+        </label>
+
+        <label>
+          <span>图片</span>
+          <input id="imageInput" name="image" type="file" accept="image/*">
+        </label>
+
+        <div class="editor-actions">
+          <button id="removeImageButton" class="tool-button" type="button">移除图片</button>
+          <button id="deleteButton" class="danger-button" type="button">删除 item</button>
+        </div>
+      </form>
+    </aside>
+
+    <script src="app.js"></script>
+  </body>
+</html>
