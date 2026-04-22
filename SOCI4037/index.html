@@ -3,33 +3,59 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Carnivalesque Map</title>
+    <title>SOCI4037 Project Carnivalesque Map of Chinese Internet</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <main class="app-shell">
-      <header class="toolbar" aria-label="地图工具栏">
-        <div class="brand">
-          <span class="brand-mark" aria-hidden="true"></span>
-          <span>Carnivalesque Map</span>
+      <header class="topbar" aria-label="地图工具栏">
+        <div class="title-block">
+          <h1>SOCI4037 Project Carnivalesque Map of Chinese Internet</h1>
+          <p>By LI Haoyang, SHAO Zikun, LI Pinyan</p>
         </div>
-        <div class="tool-group" role="group" aria-label="编辑控制">
-          <button id="editToggle" class="tool-button active" type="button" aria-pressed="true" title="开启或关闭编辑模式">编辑中</button>
-          <button id="fitButton" class="icon-button" type="button" title="适应画面" aria-label="适应画面">⌂</button>
-          <button id="zoomOutButton" class="icon-button" type="button" title="缩小" aria-label="缩小">−</button>
-          <output id="zoomLabel" class="zoom-label" aria-live="polite">100%</output>
-          <button id="zoomInButton" class="icon-button" type="button" title="放大" aria-label="放大">+</button>
-        </div>
-        <div class="tool-group" role="group" aria-label="数据操作">
-          <button id="exportButton" class="tool-button" type="button">导出 JSON</button>
-          <label class="tool-button file-button" for="importInput">导入 JSON</label>
-          <input id="importInput" type="file" accept="application/json,.json">
+
+        <div class="toolbar">
+          <div class="tool-group" role="group" aria-label="视图控制">
+            <button id="fitButton" class="icon-button" type="button" title="适应画面" aria-label="适应画面">⌂</button>
+            <button id="zoomOutButton" class="icon-button" type="button" title="缩小" aria-label="缩小">−</button>
+            <output id="zoomLabel" class="zoom-label" aria-live="polite">100%</output>
+            <button id="zoomInButton" class="icon-button" type="button" title="放大" aria-label="放大">+</button>
+          </div>
+
+          <div class="settings-wrap">
+            <button id="settingsButton" class="tool-button" type="button" aria-expanded="false">设置</button>
+            <div id="settingsMenu" class="settings-menu" hidden>
+              <button id="languageButton" class="tool-button" type="button" title="切换显示语言">中文</button>
+              <button id="editToggle" class="tool-button" type="button" aria-pressed="false">进入编辑</button>
+            </div>
+          </div>
+
+          <div class="tool-group data-tools" role="group" aria-label="数据操作" hidden>
+            <button id="exportButton" class="tool-button" type="button">导出 JSON</button>
+            <label id="importLabel" class="tool-button file-button" for="importInput">导入 JSON</label>
+            <input id="importInput" type="file" accept="application/json,.json">
+          </div>
         </div>
       </header>
 
       <section class="stage-wrap" aria-label="坐标轴画布">
         <canvas id="mapCanvas"></canvas>
-        <div id="hint" class="hint">右键空白处新建 item。滚轮缩放，拖动画布平移。</div>
+        <div class="floating-axis" aria-hidden="true">
+          <div id="floatingXAxis" class="floating-line floating-line-x"></div>
+          <div id="floatingYAxis" class="floating-line floating-line-y"></div>
+        </div>
+        <div class="floating-quadrants" aria-label="象限说明">
+          <span id="quadrantTopLeft" class="quadrant-label top-left">carnivalesque propaganda</span>
+          <span id="quadrantTopRight" class="quadrant-label top-right">carnivalesque sociopolitical protest</span>
+          <span id="quadrantBottomLeft" class="quadrant-label bottom-left">carnivalesque mass entertainment</span>
+          <span id="quadrantBottomRight" class="quadrant-label bottom-right">carnivalesque sociocultural critique</span>
+        </div>
+        <aside id="axisLegend" class="axis-legend" aria-label="坐标轴图例">
+          <p>x-axis: pro-status quo or anti-status quo</p>
+          <p>y-axis: degree of political relevance</p>
+        </aside>
+        <article id="detailCard" class="detail-card" hidden></article>
+        <div id="hint" class="hint">右键空白处新建 item。滚轮缩放画布；鼠标悬停 item 后滚轮调整椭圆大小；拖动控制点调整形状和方向。</div>
         <div id="contextMenu" class="context-menu" hidden>
           <button id="addHereButton" type="button">在这里新建 item</button>
         </div>
@@ -39,51 +65,47 @@
     <aside id="editor" class="editor-panel" aria-label="Item 编辑面板" hidden>
       <form id="itemForm">
         <div class="editor-head">
-          <h2>编辑 item</h2>
+          <div>
+            <h2>编辑 item</h2>
+            <p>内容会自动保存</p>
+          </div>
           <button id="closeEditorButton" class="icon-button" type="button" title="关闭编辑面板" aria-label="关闭编辑面板">×</button>
         </div>
 
-        <label>
-          <span>文字</span>
-          <input id="labelInput" name="label" type="text" autocomplete="off">
-        </label>
-
-        <label>
-          <span>跳转链接</span>
-          <input id="urlInput" name="url" type="url" placeholder="https://example.com">
-        </label>
-
         <div class="field-grid">
           <label>
-            <span>X</span>
-            <input id="xInput" name="x" type="number" step="1">
+            <span>中文名称</span>
+            <input id="labelZhInput" name="labelZh" type="text" autocomplete="off">
           </label>
           <label>
-            <span>Y</span>
-            <input id="yInput" name="y" type="number" step="1">
-          </label>
-        </div>
-
-        <div class="field-grid">
-          <label>
-            <span>宽度</span>
-            <input id="widthInput" name="width" type="number" min="40" max="600" step="5">
-          </label>
-          <label>
-            <span>高度</span>
-            <input id="heightInput" name="height" type="number" min="30" max="420" step="5">
+            <span>English name</span>
+            <input id="labelEnInput" name="labelEn" type="text" autocomplete="off">
           </label>
         </div>
 
         <label>
-          <span>旋转</span>
-          <input id="rotationInput" name="rotation" type="range" min="-80" max="80" step="1">
+          <span>中文 intro</span>
+          <textarea id="introZhInput" name="introZh" rows="4"></textarea>
         </label>
 
         <label>
-          <span>图片</span>
+          <span>English intro</span>
+          <textarea id="introEnInput" name="introEn" rows="4"></textarea>
+        </label>
+
+        <label>
+          <span>详情卡片图片</span>
+          <div id="imageDropZone" class="image-drop-zone" tabindex="0">
+            上传、拖入，或复制图片后按 Cmd/Ctrl+V
+          </div>
           <input id="imageInput" name="image" type="file" accept="image/*">
         </label>
+
+        <div class="section-head">
+          <h3>超链接</h3>
+          <button id="addLinkButton" class="tool-button" type="button">新增</button>
+        </div>
+        <div id="linksEditor" class="links-editor"></div>
 
         <div class="editor-actions">
           <button id="removeImageButton" class="tool-button" type="button">移除图片</button>
