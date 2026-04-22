@@ -1610,19 +1610,25 @@ function drawFittedText(text, x, y, maxWidth, maxHeight) {
 }
 
 function getWrappedLines(text, maxWidth) {
-  const chars = Array.from(text);
+  const tokens = text.match(/[^\s\u4e00-\u9fa5]+|[\u4e00-\u9fa5]|\s+/g) || [];
   const lines = [];
-  let line = "";
-  chars.forEach((char) => {
-    const trial = line + char;
-    if (ctx.measureText(trial).width > maxWidth && line) {
-      lines.push(line);
-      line = char;
+  let currentLine = "";
+
+  tokens.forEach(token => {
+    if (token.trim() === "" && currentLine === "") return;
+
+    const testLine = currentLine + token;
+    const metrics = ctx.measureText(testLine);
+
+    if (metrics.width > maxWidth && currentLine !== "") {
+      lines.push(currentLine.trim());
+      currentLine = token.trim() === "" ? "" : token;
     } else {
-      line = trial;
+      currentLine = testLine;
     }
   });
-  if (line) lines.push(line);
+
+  if (currentLine.trim() !== "") lines.push(currentLine.trim());
   return lines;
 }
 
