@@ -139,6 +139,8 @@ const state = {
   ignoreRemoteUntil: 0,
   pendingUploads: 0,
   viewAnimation: null,
+  zoomAnimation: null,
+  zoomTarget: null,
   selectedId: null,
   hoverId: null,
   editMode: false,
@@ -228,7 +230,12 @@ function scheduleRemoteSave() {
   updateEditToggle();
   window.clearTimeout(state.remoteSaveTimer);
   state.remoteSavePromise = new Promise((resolve) => {
-    state.remoteSaveTimer = window.setTimeout(() => resolve(saveRemoteMap()), 250);
+    state.remoteSaveTimer = window.setTimeout(async () => {
+      state.remoteSaveTimer = null;
+      const result = await saveRemoteMap();
+      state.remoteSavePromise = null;
+      resolve(result);
+    }, 250);
   });
 }
 
@@ -330,17 +337,24 @@ function hideLoadingOverlay() {
 
 async function waitForPendingSync() {
   window.clearTimeout(state.remoteSaveTimer);
+  state.remoteSaveTimer = null;
   showLoadingOverlay("正在保存到云端...");
   while (state.pendingUploads > 0) {
     await delay(120);
   }
-  if (state.remoteSavePromise) await state.remoteSavePromise;
-  await saveRemoteMap();
+  state.remoteSavePromise = null;
+  const ok = await saveRemoteMap();
   hideLoadingOverlay();
+  return ok;
+}
+
+async function saveCardWithOverlay() {
+  if (!state.supabase || !state.hasUnsavedRemoteChanges) return;
+  await waitForPendingSync();
 }
 
 function hasPendingSync() {
-  return state.hasUnsavedRemoteChanges || state.pendingUploads > 0 || Boolean(state.remoteSaveTimer);
+  return state.hasUnsavedRemoteChanges || state.pendingUploads > 0 || Boolean(state.remoteSaveTimer || state.remoteSavePromise);
 }
 
 function delay(ms) {
@@ -420,6 +434,9 @@ function bindEvents() {
   controls.linksEditor.addEventListener("input", updateLinkFromInput);
   controls.linksEditor.addEventListener("click", onLinksEditorClick);
   form.addEventListener("input", updateSelectedFromForm);
+  form.addEventListener("change", () => {
+    if (state.editMode) saveCardWithOverlay();
+  });
 }
 
 function resizeCanvas() {
@@ -511,6 +528,41 @@ function animateViewTo(target, duration = 220, forceMotion = false) {
   };
 
   state.viewAnimation = requestAnimationFrame(tick);
+}
+
+function animateZoomTo(target) {
+  state.zoomTarget = target;
+  if (state.zoomAnimation) return;
+
+  const tick = () => {
+    if (!state.zoomTarget) {
+      state.zoomAnimation = null;
+      return;
+    }
+
+    const targetView = state.zoomTarget;
+    state.view.scale = lerp(state.view.scale, targetView.scale, 0.28);
+    state.view.x = lerp(state.view.x, targetView.x, 0.28);
+    state.view.y = lerp(state.view.y, targetView.y, 0.28);
+    updateZoomLabel();
+    draw();
+
+    const done =
+      Math.abs(state.view.scale - targetView.scale) < 0.001 &&
+      Math.abs(state.view.x - targetView.x) < 0.5 &&
+      Math.abs(state.view.y - targetView.y) < 0.5;
+
+    if (done) {
+      setView(targetView);
+      state.zoomTarget = null;
+      state.zoomAnimation = null;
+      return;
+    }
+
+    state.zoomAnimation = requestAnimationFrame(tick);
+  };
+
+  state.zoomAnimation = requestAnimationFrame(tick);
 }
 
 function createAnimatedStart(target) {
@@ -848,32 +900,44 @@ function onKeyDown(event) {
 }
 
 function zoomAt(screenX, screenY, factor) {
-  const before = screenToWorld(screenX, screenY);
+  const baseView = state.zoomTarget || state.view;
+  const before = {
+    x: (screenX - baseView.x) / baseView.scale,
+    y: (screenY - baseView.y) / baseView.scale,
+  };
   const minScale = getMinimumScale();
-  const targetScale = clamp(state.view.scale * factor, minScale, MAX_SCALE);
+  const targetScale = clamp(baseView.scale * factor, minScale, MAX_SCALE);
   if (factor < 1 && targetScale <= minScale + MIN_SCALE_EPSILON) {
     animateViewTo(fittedContentView(), 260, true);
   } else {
-    state.view.scale = targetScale;
-    state.view.x = screenX - before.x * targetScale;
-    state.view.y = screenY - before.y * targetScale;
-    constrainView();
-    updateZoomLabel();
-    save();
-    draw();
+    const target = constrainViewValues({
+      scale: targetScale,
+      x: screenX - before.x * targetScale,
+      y: screenY - before.y * targetScale,
+    });
+    animateZoomTo(target);
   }
 }
 
 function constrainView() {
-  state.view.scale = clamp(state.view.scale, getMinimumScale(), MAX_SCALE);
+  const constrained = constrainViewValues(state.view);
+  state.view.scale = constrained.scale;
+  state.view.x = constrained.x;
+  state.view.y = constrained.y;
+}
+
+function constrainViewValues(view) {
+  const scale = clamp(view.scale, getMinimumScale(), MAX_SCALE);
   const display = getDisplaySize();
-  const scaledWidth = WORLD.width * state.view.scale;
-  const scaledHeight = WORLD.height * state.view.scale;
+  const scaledWidth = WORLD.width * scale;
+  const scaledHeight = WORLD.height * scale;
   const marginX = Math.min(display.width * 0.6, 760);
   const marginY = Math.min(display.height * 0.6, 520);
-
-  state.view.x = clamp(state.view.x, display.width - scaledWidth - marginX, marginX);
-  state.view.y = clamp(state.view.y, display.height - scaledHeight - marginY, marginY);
+  return {
+    scale,
+    x: clamp(view.x, display.width - scaledWidth - marginX, marginX),
+    y: clamp(view.y, display.height - scaledHeight - marginY, marginY),
+  };
 }
 
 function normalizeMinimumZoomView() {
@@ -1103,12 +1167,15 @@ function setSelectedImage() {
 async function setImageFromFile(file) {
   const item = getSelected();
   if (!item || !file || !file.type.startsWith("image/")) return;
+  const previousImage = item.image;
   const cloudUrl = await uploadImageFile(item, file);
   if (cloudUrl) {
     item.image = cloudUrl;
+    if (previousImage && previousImage !== cloudUrl) deleteCloudImage(previousImage);
     cacheImage(item);
     renderDetailCard();
     save();
+    saveCardWithOverlay();
     return;
   }
   showRemoteError("图片上传失败：Supabase Storage 没有配置好，图片不会保存。");
@@ -1150,6 +1217,27 @@ function sanitizeFileName(name) {
   return clean || "image.png";
 }
 
+function getStoragePathFromPublicUrl(url) {
+  if (!url || !url.includes(`/storage/v1/object/public/${SUPABASE_IMAGE_BUCKET}/`)) return "";
+  try {
+    const parsed = new URL(url);
+    const marker = `/storage/v1/object/public/${SUPABASE_IMAGE_BUCKET}/`;
+    const index = parsed.pathname.indexOf(marker);
+    if (index === -1) return "";
+    return decodeURIComponent(parsed.pathname.slice(index + marker.length));
+  } catch {
+    return "";
+  }
+}
+
+async function deleteCloudImage(url) {
+  if (!state.supabase) return;
+  const path = getStoragePathFromPublicUrl(url);
+  if (!path) return;
+  const { error } = await state.supabase.storage.from(SUPABASE_IMAGE_BUCKET).remove([path]);
+  if (error) console.warn("Supabase image delete failed:", error.message);
+}
+
 function onImageDragOver(event) {
   if (!getSelected()) return;
   event.preventDefault();
@@ -1182,23 +1270,29 @@ function onPasteImage(event) {
   setImageFromFile(file);
 }
 
-function removeSelectedImage() {
+async function removeSelectedImage() {
   const item = getSelected();
   if (!item) return;
+  const previousImage = item.image;
   item.image = "";
   state.imageCache.delete(item.id);
   controls.image.value = "";
   renderDetailCard();
+  await deleteCloudImage(previousImage);
   save();
+  saveCardWithOverlay();
 }
 
-function deleteSelected() {
+async function deleteSelected() {
   if (!state.selectedId) return;
+  const item = getSelected();
   state.items = state.items.filter((item) => item.id !== state.selectedId);
   state.imageCache.delete(state.selectedId);
+  await deleteCloudImage(item?.image || "");
   closeEditor();
   renderDetailCard();
   save();
+  saveCardWithOverlay();
   draw();
 }
 
