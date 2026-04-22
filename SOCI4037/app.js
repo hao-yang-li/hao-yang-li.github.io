@@ -45,11 +45,18 @@ const controls = {
 
 const STORAGE_KEY = "carnivalesque-map-v2";
 const LEGACY_STORAGE_KEY = "carnivalesque-map-v1";
+const SUPABASE_URL = "https://vylfsuvkcikfzfbmwlsb.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_YKei57ev0P26HhOKYp7_7Q_e7VxBfxc";
+const SUPABASE_TABLE = "map_state";
+const SUPABASE_MAP_ID = "main";
+const SUPABASE_IMAGE_BUCKET = "map-images";
 const EDIT_PASSWORD = "114514";
 const WORLD = { width: 2200, height: 1300 };
 const AXIS = { x: 770, y: 650 };
-const MIN_SCALE = 0.7;
+const DESKTOP_MIN_SCALE = 0.7;
+const ABSOLUTE_MIN_SCALE = 0.25;
 const MAX_SCALE = 3.5;
+const MIN_SCALE_EPSILON = 0.035;
 const MIN_ITEM = { width: 70, height: 38 };
 
 const copy = {
@@ -121,6 +128,12 @@ const starterItems = [
 const state = {
   items: [],
   imageCache: new Map(),
+  supabase: null,
+  remoteChannel: null,
+  remoteSaveTimer: null,
+  remoteErrorShown: false,
+  ignoreRemoteUntil: 0,
+  viewAnimation: null,
   selectedId: null,
   hoverId: null,
   editMode: false,
@@ -138,11 +151,19 @@ const state = {
 };
 
 function bootstrap() {
+  initSupabase();
   load();
   resizeCanvas();
   bindEvents();
   updateLanguageUi();
   draw();
+  loadRemoteMap();
+  subscribeRemoteMap();
+}
+
+function initSupabase() {
+  if (!globalThis.supabase || !SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) return;
+  state.supabase = globalThis.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 }
 
 function load() {
@@ -191,12 +212,98 @@ function save() {
       language: state.language,
     })
   );
+  state.ignoreRemoteUntil = Date.now() + 1800;
+  scheduleRemoteSave();
+}
+
+function scheduleRemoteSave() {
+  if (!state.supabase) return;
+  window.clearTimeout(state.remoteSaveTimer);
+  state.remoteSaveTimer = window.setTimeout(saveRemoteMap, 700);
+}
+
+async function saveRemoteMap() {
+  if (!state.supabase) return;
+  const payload = {
+    id: SUPABASE_MAP_ID,
+    data: {
+      items: state.items,
+      view: state.view,
+      language: state.language,
+    },
+    updated_at: new Date().toISOString(),
+  };
+  const { error } = await state.supabase.from(SUPABASE_TABLE).upsert(payload);
+  if (error) showRemoteError(`Supabase 保存失败：${error.message}`);
+}
+
+async function loadRemoteMap() {
+  if (!state.supabase) return;
+  const { data, error } = await state.supabase
+    .from(SUPABASE_TABLE)
+    .select("data")
+    .eq("id", SUPABASE_MAP_ID)
+    .maybeSingle();
+
+  if (error) {
+    showRemoteError(`Supabase 读取失败：${error.message}`);
+    return;
+  }
+
+  if (!data?.data?.items) {
+    saveRemoteMap();
+    return;
+  }
+
+  applyRemoteData(data.data);
+}
+
+function subscribeRemoteMap() {
+  if (!state.supabase || state.remoteChannel) return;
+  state.remoteChannel = state.supabase
+    .channel("map-state-live")
+    .on(
+      "postgres_changes",
+      {
+        event: "*",
+        schema: "public",
+        table: SUPABASE_TABLE,
+        filter: `id=eq.${SUPABASE_MAP_ID}`,
+      },
+      (payload) => {
+        if (Date.now() < state.ignoreRemoteUntil) return;
+        if (state.editMode) return;
+        if (state.viewAnimation) return;
+        const nextData = payload.new?.data;
+        if (nextData?.items) applyRemoteData(nextData);
+      }
+    )
+    .subscribe((status) => {
+      if (status === "CHANNEL_ERROR") showRemoteError("Supabase 实时同步连接失败，请检查 Realtime 配置。");
+    });
+}
+
+function applyRemoteData(data) {
+  state.items = data.items.map(normalizeItem);
+  state.language = data.language || state.language;
+  state.imageCache.clear();
+  state.items.forEach(cacheImage);
+  updateLanguageUi();
+  renderDetailCard();
+  draw();
+}
+
+function showRemoteError(message) {
+  console.warn(message);
+  if (state.remoteErrorShown) return;
+  state.remoteErrorShown = true;
+  window.alert(message);
 }
 
 function bindEvents() {
   window.addEventListener("resize", () => {
     resizeCanvas();
-    draw();
+    keepMinimumZoomCentered();
   });
 
   canvas.addEventListener("pointerdown", onPointerDown);
@@ -272,24 +379,98 @@ function resizeCanvas() {
   canvas.style.height = `${rect.height}px`;
   ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
   if (!localStorage.getItem(STORAGE_KEY) && !localStorage.getItem(LEGACY_STORAGE_KEY)) fitView(false);
-  constrainView();
+  keepMinimumZoomCentered();
 }
 
 function fitView(shouldDraw = true) {
-  const display = getDisplaySize();
-  const margin = 54;
-  const scale = Math.min((display.width - margin) / WORLD.width, (display.height - margin) / WORLD.height);
-  state.view.scale = clamp(scale, MIN_SCALE, MAX_SCALE);
-  centerAxis();
-  updateZoomLabel();
-  save();
-  if (shouldDraw) draw();
+  const target = fittedContentView();
+  if (shouldDraw) {
+    animateViewTo(target);
+  } else {
+    setView(target);
+    save();
+  }
 }
 
 function centerAxis() {
+  animateViewTo(centeredAxisView(state.view.scale), 240, true);
+}
+
+function fittedContentView() {
+  const minScale = getMinimumScale();
+  const bounds = getContentBounds();
   const display = getDisplaySize();
-  state.view.x = display.width / 2 - AXIS.x * state.view.scale;
-  state.view.y = display.height / 2 - AXIS.y * state.view.scale;
+  const scale = clamp(minScale, ABSOLUTE_MIN_SCALE, MAX_SCALE);
+  const centerX = (bounds.left + bounds.right) / 2;
+  const centerY = (bounds.top + bounds.bottom) / 2;
+  return {
+    scale,
+    x: display.width / 2 - centerX * scale,
+    y: display.height / 2 - centerY * scale,
+  };
+}
+
+function centeredAxisView(scale) {
+  const display = getDisplaySize();
+  return {
+    scale,
+    x: display.width / 2 - AXIS.x * scale,
+    y: display.height / 2 - AXIS.y * scale,
+  };
+}
+
+function setView(view) {
+  state.view.scale = view.scale;
+  state.view.x = view.x;
+  state.view.y = view.y;
+  updateZoomLabel();
+  draw();
+}
+
+function keepMinimumZoomCentered() {
+  if (isMinimumZoom()) {
+    setView(fittedContentView());
+  } else {
+    constrainView();
+    draw();
+  }
+}
+
+function animateViewTo(target, duration = 220, forceMotion = false) {
+  if (state.viewAnimation) cancelAnimationFrame(state.viewAnimation);
+  const start = forceMotion ? createAnimatedStart(target) : { ...state.view };
+  const startTime = performance.now();
+
+  const tick = (now) => {
+    const progress = clamp((now - startTime) / duration, 0, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    state.view.scale = lerp(start.scale, target.scale, eased);
+    state.view.x = lerp(start.x, target.x, eased);
+    state.view.y = lerp(start.y, target.y, eased);
+    updateZoomLabel();
+    draw();
+
+    if (progress < 1) {
+      state.viewAnimation = requestAnimationFrame(tick);
+    } else {
+      state.viewAnimation = null;
+      setView(target);
+    }
+  };
+
+  state.viewAnimation = requestAnimationFrame(tick);
+}
+
+function createAnimatedStart(target) {
+  const dx = Math.abs(state.view.x - target.x);
+  const dy = Math.abs(state.view.y - target.y);
+  const ds = Math.abs(state.view.scale - target.scale);
+  if (dx + dy + ds > 8) return { ...state.view };
+  return {
+    scale: target.scale,
+    x: target.x + 28,
+    y: target.y,
+  };
 }
 
 function getDisplaySize() {
@@ -487,9 +668,13 @@ function onPointerMove(event) {
   }
 
   if (state.pointer.mode === "pan") {
-    state.view.x = state.pointer.startView.x + (screen.x - state.pointer.startScreen.x);
-    state.view.y = state.pointer.startView.y + (screen.y - state.pointer.startScreen.y);
-    constrainView();
+    if (isMinimumZoom()) {
+      setView(fittedContentView());
+    } else {
+      state.view.x = state.pointer.startView.x + (screen.x - state.pointer.startScreen.x);
+      state.view.y = state.pointer.startView.y + (screen.y - state.pointer.startScreen.y);
+      constrainView();
+    }
     save();
     draw();
     return;
@@ -615,21 +800,23 @@ function onKeyDown(event) {
 
 function zoomAt(screenX, screenY, factor) {
   const before = screenToWorld(screenX, screenY);
-  state.view.scale = clamp(state.view.scale * factor, MIN_SCALE, MAX_SCALE);
-  if (state.view.scale <= MIN_SCALE + 0.001) {
-    centerAxis();
+  const minScale = getMinimumScale();
+  const targetScale = clamp(state.view.scale * factor, minScale, MAX_SCALE);
+  if (factor < 1 && targetScale <= minScale + MIN_SCALE_EPSILON) {
+    animateViewTo(fittedContentView(), 260, true);
   } else {
-    state.view.x = screenX - before.x * state.view.scale;
-    state.view.y = screenY - before.y * state.view.scale;
+    state.view.scale = targetScale;
+    state.view.x = screenX - before.x * targetScale;
+    state.view.y = screenY - before.y * targetScale;
     constrainView();
+    updateZoomLabel();
+    save();
+    draw();
   }
-  updateZoomLabel();
-  save();
-  draw();
 }
 
 function constrainView() {
-  state.view.scale = clamp(state.view.scale, MIN_SCALE, MAX_SCALE);
+  state.view.scale = clamp(state.view.scale, getMinimumScale(), MAX_SCALE);
   const display = getDisplaySize();
   const scaledWidth = WORLD.width * state.view.scale;
   const scaledHeight = WORLD.height * state.view.scale;
@@ -638,6 +825,59 @@ function constrainView() {
 
   state.view.x = clamp(state.view.x, display.width - scaledWidth - marginX, marginX);
   state.view.y = clamp(state.view.y, display.height - scaledHeight - marginY, marginY);
+}
+
+function normalizeMinimumZoomView() {
+  if (!isMinimumZoom()) return;
+  const target = fittedContentView();
+  state.view.scale = target.scale;
+  state.view.x = target.x;
+  state.view.y = target.y;
+}
+
+function isMinimumZoom() {
+  return state.view.scale <= getMinimumScale() + MIN_SCALE_EPSILON;
+}
+
+function getMinimumScale() {
+  const display = getDisplaySize();
+  const bounds = getContentBounds();
+  const padding = Math.max(80, Math.min(display.width, display.height) * 0.08);
+  const fitScale = Math.min(
+    (display.width - padding * 2) / Math.max(1, bounds.right - bounds.left),
+    (display.height - padding * 2) / Math.max(1, bounds.bottom - bounds.top)
+  );
+  return clamp(Math.min(DESKTOP_MIN_SCALE, fitScale), ABSOLUTE_MIN_SCALE, DESKTOP_MIN_SCALE);
+}
+
+function getContentBounds() {
+  if (!state.items.length) {
+    return { left: 0, top: 0, right: WORLD.width, bottom: WORLD.height };
+  }
+
+  const pad = 90;
+  return state.items.reduce(
+    (bounds, item) => {
+      const radius = getRotatedItemRadius(item);
+      return {
+        left: Math.min(bounds.left, item.x - radius.x - pad, AXIS.x - pad),
+        top: Math.min(bounds.top, item.y - radius.y - pad, AXIS.y - pad),
+        right: Math.max(bounds.right, item.x + radius.x + pad, AXIS.x + pad),
+        bottom: Math.max(bounds.bottom, item.y + radius.y + pad, AXIS.y + pad),
+      };
+    },
+    { left: AXIS.x, top: AXIS.y, right: AXIS.x, bottom: AXIS.y }
+  );
+}
+
+function getRotatedItemRadius(item) {
+  const radians = degreesToRadians(item.rotation || 0);
+  const halfWidth = item.width / 2;
+  const halfHeight = item.height / 2;
+  return {
+    x: Math.abs(halfWidth * Math.cos(radians)) + Math.abs(halfHeight * Math.sin(radians)),
+    y: Math.abs(halfWidth * Math.sin(radians)) + Math.abs(halfHeight * Math.cos(radians)),
+  };
 }
 
 function screenToWorld(x, y) {
@@ -811,17 +1051,47 @@ function setSelectedImage() {
   setImageFromFile(file);
 }
 
-function setImageFromFile(file) {
+async function setImageFromFile(file) {
   const item = getSelected();
   if (!item || !file || !file.type.startsWith("image/")) return;
-  const reader = new FileReader();
-  reader.onload = () => {
-    item.image = reader.result;
+  const cloudUrl = await uploadImageFile(item, file);
+  if (cloudUrl) {
+    item.image = cloudUrl;
     cacheImage(item);
     renderDetailCard();
     save();
-  };
-  reader.readAsDataURL(file);
+    return;
+  }
+  showRemoteError("图片上传失败：Supabase Storage 没有配置好，图片不会保存。");
+}
+
+async function uploadImageFile(item, file) {
+  if (!state.supabase) {
+    showRemoteError("Supabase 未连接，无法上传图片。");
+    return "";
+  }
+  const safeName = sanitizeFileName(file.name || "pasted-image.png");
+  const path = `items/${item.id}/${Date.now()}-${safeName}`;
+  const { error } = await state.supabase.storage
+    .from(SUPABASE_IMAGE_BUCKET)
+    .upload(path, file, {
+      cacheControl: "31536000",
+      upsert: true,
+      contentType: file.type,
+    });
+
+  if (error) {
+    showRemoteError(`Supabase 图片上传失败：${error.message}`);
+    return "";
+  }
+
+  const { data } = state.supabase.storage.from(SUPABASE_IMAGE_BUCKET).getPublicUrl(path);
+  return data.publicUrl || "";
+}
+
+function sanitizeFileName(name) {
+  const clean = name.toLowerCase().replace(/[^a-z0-9._-]+/g, "-").replace(/^-+|-+$/g, "");
+  return clean || "image.png";
 }
 
 function onImageDragOver(event) {
@@ -1124,6 +1394,10 @@ function radiansToDegrees(radians) {
 
 function distance(a, b) {
   return Math.hypot(a.x - b.x, a.y - b.y);
+}
+
+function lerp(start, end, amount) {
+  return start + (end - start) * amount;
 }
 
 function clamp(value, min, max) {

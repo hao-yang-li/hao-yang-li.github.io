@@ -587,3 +587,83 @@ button {
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 560px) {
+  .app-shell {
+    padding: 6px;
+  }
+
+  .topbar {
+    min-height: 0;
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .title-block h1 {
+    font-size: 18px;
+    line-height: 1.12;
+  }
+
+  .title-block p {
+    font-size: 11px;
+  }
+
+  .toolbar {
+    width: 100%;
+    gap: 6px;
+  }
+
+  .tool-button,
+  .icon-button,
+  .danger-button {
+    min-height: 31px;
+    font-size: 12px;
+  }
+
+  .icon-button {
+    width: 31px;
+  }
+
+  .zoom-label {
+    min-width: 46px;
+    font-size: 12px;
+  }
+
+  .stage-wrap {
+    border-width: 5px;
+  }
+
+  .floating-quadrants {
+    inset: 7px;
+  }
+
+  .quadrant-label {
+    max-width: 48vw;
+    padding: 3px 5px;
+    font-size: 12px;
+  }
+
+  .axis-legend {
+    top: 70px;
+    right: 7px;
+    padding: 6px 8px;
+  }
+
+  .axis-legend p {
+    font-size: 11px;
+  }
+
+  .hint {
+    left: 7px;
+    right: 7px;
+    bottom: 78px;
+    max-width: none;
+    font-size: 11px;
+  }
+
+  .detail-card {
+    width: min(280px, calc(100% - 14px));
+    max-height: 46vh;
+    padding: 9px;
+  }
+}
