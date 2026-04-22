@@ -135,6 +135,7 @@ const state = {
   remoteSaveTimer: null,
   remoteSavePromise: null,
   remoteErrorShown: false,
+  hasUnsavedRemoteChanges: false,
   ignoreRemoteUntil: 0,
   pendingUploads: 0,
   viewAnimation: null,
@@ -217,15 +218,17 @@ function save() {
       language: state.language,
     })
   );
+  state.hasUnsavedRemoteChanges = true;
   state.ignoreRemoteUntil = Date.now() + 1800;
   scheduleRemoteSave();
 }
 
 function scheduleRemoteSave() {
   if (!state.supabase) return;
+  updateEditToggle();
   window.clearTimeout(state.remoteSaveTimer);
   state.remoteSavePromise = new Promise((resolve) => {
-    state.remoteSaveTimer = window.setTimeout(() => resolve(saveRemoteMap()), 700);
+    state.remoteSaveTimer = window.setTimeout(() => resolve(saveRemoteMap()), 250);
   });
 }
 
@@ -244,6 +247,8 @@ async function saveRemoteMap() {
   };
   const { error } = await state.supabase.from(SUPABASE_TABLE).upsert(payload);
   if (error) showRemoteError(`Supabase 保存失败：${error.message}`);
+  if (!error) state.hasUnsavedRemoteChanges = false;
+  updateEditToggle();
   return !error;
 }
 
@@ -334,6 +339,10 @@ async function waitForPendingSync() {
   hideLoadingOverlay();
 }
 
+function hasPendingSync() {
+  return state.hasUnsavedRemoteChanges || state.pendingUploads > 0 || Boolean(state.remoteSaveTimer);
+}
+
 function delay(ms) {
   return new Promise((resolve) => window.setTimeout(resolve, ms));
 }
@@ -353,6 +362,11 @@ function bindEvents() {
 
   window.addEventListener("keydown", onKeyDown);
   window.addEventListener("paste", onPasteImage);
+  window.addEventListener("beforeunload", (event) => {
+    if (!hasPendingSync()) return;
+    event.preventDefault();
+    event.returnValue = "";
+  });
   window.addEventListener("click", (event) => {
     if (!contextMenu.contains(event.target)) hideContextMenu();
     if (!settingsMenu.contains(event.target) && event.target !== settingsButton) closeSettings();
@@ -592,12 +606,10 @@ function drawItem(item) {
   ctx.strokeStyle = selected ? "#d63f72" : "#050505";
   ctx.stroke();
 
-  const size = Math.max(24, Math.min(44, item.height * 0.36));
   ctx.fillStyle = "#111";
-  ctx.font = `${size}px "Songti SC", "SimSun", Georgia, serif`;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  wrapText(label, 0, 0, item.width * 0.72, size * 1.18);
+  drawFittedText(label, 0, 0, item.width * 0.7, item.height * 0.62);
 
   ctx.restore();
 }
@@ -713,7 +725,6 @@ function onPointerMove(event) {
       state.view.y = state.pointer.startView.y + (screen.y - state.pointer.startScreen.y);
       constrainView();
     }
-    save();
     draw();
     return;
   }
@@ -728,11 +739,11 @@ function onPointerMove(event) {
     applyHandleDrag(item, state.pointer.startItem, world, state.pointer.handle);
   }
 
-  save();
   draw();
 }
 
 function onPointerUp() {
+  if (state.pointer.mode === "item" || state.pointer.mode === "handle") save();
   state.pointer.mode = null;
   state.pointer.handle = null;
   state.pointer.startItem = null;
@@ -1109,6 +1120,7 @@ async function uploadImageFile(item, file) {
     return "";
   }
   state.pendingUploads += 1;
+  updateEditToggle();
   const safeName = sanitizeFileName(file.name || "pasted-image.png");
   const path = `items/${item.id}/${Date.now()}-${safeName}`;
   try {
@@ -1129,6 +1141,7 @@ async function uploadImageFile(item, file) {
     return data.publicUrl || "";
   } finally {
     state.pendingUploads = Math.max(0, state.pendingUploads - 1);
+    updateEditToggle();
   }
 }
 
@@ -1347,6 +1360,7 @@ function updateEditToggle() {
   const t = copy[state.language];
   editToggle.classList.toggle("active", state.editMode);
   editToggle.textContent = state.editMode ? t.editOn : t.editOff;
+  if (state.hasUnsavedRemoteChanges || state.pendingUploads > 0) editToggle.textContent = "保存中...";
   editToggle.setAttribute("aria-pressed", String(state.editMode));
   controls.dataTools.hidden = true;
   controls.dataTools.style.display = state.editMode ? "flex" : "none";
@@ -1403,7 +1417,43 @@ function importJson(event) {
   reader.readAsText(file);
 }
 
-function wrapText(text, x, y, maxWidth, lineHeight) {
+function drawFittedText(text, x, y, maxWidth, maxHeight) {
+  const maxFont = Math.min(44, Math.max(18, Math.min(maxWidth * 0.42, maxHeight * 0.72)));
+  const minFont = 12;
+  let best = null;
+
+  for (let size = maxFont; size >= minFont; size -= 1) {
+    ctx.font = `${size}px "Songti SC", "SimSun", Georgia, serif`;
+    const lineHeight = size * 1.15;
+    const lines = getWrappedLines(text, maxWidth);
+    const textHeight = lines.length * lineHeight;
+    const widest = lines.reduce((width, line) => Math.max(width, ctx.measureText(line).width), 0);
+    if (textHeight <= maxHeight && widest <= maxWidth) {
+      best = { lines, size, lineHeight };
+      break;
+    }
+  }
+
+  if (!best) {
+    const size = minFont;
+    ctx.font = `${size}px "Songti SC", "SimSun", Georgia, serif`;
+    const lineHeight = size * 1.12;
+    const maxLines = Math.max(1, Math.floor(maxHeight / lineHeight));
+    best = {
+      lines: getWrappedLines(text, maxWidth).slice(0, maxLines),
+      size,
+      lineHeight,
+    };
+  }
+
+  ctx.font = `${best.size}px "Songti SC", "SimSun", Georgia, serif`;
+  const startY = y - ((best.lines.length - 1) * best.lineHeight) / 2;
+  best.lines.forEach((lineText, index) => {
+    ctx.fillText(lineText, x, startY + index * best.lineHeight);
+  });
+}
+
+function getWrappedLines(text, maxWidth) {
   const chars = Array.from(text);
   const lines = [];
   let line = "";
@@ -1417,12 +1467,7 @@ function wrapText(text, x, y, maxWidth, lineHeight) {
     }
   });
   if (line) lines.push(line);
-
-  const visibleLines = lines.slice(0, 3);
-  const startY = y - ((visibleLines.length - 1) * lineHeight) / 2;
-  visibleLines.forEach((lineText, index) => {
-    ctx.fillText(lineText, x, startY + index * lineHeight);
-  });
+  return lines;
 }
 
 function makeId() {
