@@ -514,12 +514,12 @@ function resizeCanvas() {
 }
 
 function fitView(shouldDraw = true) {
-  const target = fittedContentView();
+  const target = fittedContentView(); 
   if (shouldDraw) {
     animateViewTo(target);
   } else {
     setView(target);
-    saveLocalState(); 
+    saveLocalState();
   }
 }
 
@@ -557,12 +557,8 @@ function setView(view) {
 }
 
 function keepMinimumZoomCentered() {
-  if (isMinimumZoom()) {
-    setView(fittedContentView());
-  } else {
-    constrainView();
-    draw();
-  }
+  constrainView();
+  draw();
 }
 
 function animateViewTo(target, duration = 220, forceMotion = false) {
@@ -830,13 +826,9 @@ function onPointerMove(event) {
   }
 
   if (state.pointer.mode === "pan") {
-    if (isMinimumZoom()) {
-      setView(fittedContentView());
-    } else {
-      state.view.x = state.pointer.startView.x + (screen.x - state.pointer.startScreen.x);
-      state.view.y = state.pointer.startView.y + (screen.y - state.pointer.startScreen.y);
-      constrainView();
-    }
+    state.view.x = state.pointer.startView.x + (screen.x - state.pointer.startScreen.x);
+    state.view.y = state.pointer.startView.y + (screen.y - state.pointer.startScreen.y);
+    constrainView(); // 只负责别拖出银河系
     draw();
     return;
   }
@@ -989,10 +981,14 @@ function constrainView() {
 function constrainViewValues(view) {
   const scale = clamp(view.scale, getMinimumScale(), MAX_SCALE);
   const display = getDisplaySize();
+  
+  const isMobile = display.width < 600;
+  const marginX = isMobile ? display.width * 0.9 : Math.min(display.width * 0.6, 760);
+  const marginY = isMobile ? display.height * 0.9 : Math.min(display.height * 0.6, 520);
+
   const scaledWidth = WORLD.width * scale;
   const scaledHeight = WORLD.height * scale;
-  const marginX = Math.min(display.width * 0.6, 760);
-  const marginY = Math.min(display.height * 0.6, 520);
+
   return {
     scale,
     x: clamp(view.x, display.width - scaledWidth - marginX, marginX),
