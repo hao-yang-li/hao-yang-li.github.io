@@ -70,7 +70,7 @@ const copy = {
     editOn: "退出编辑",
     editOff: "进入编辑",
     add: "在这里新建 item",
-    hint: "右键空白处新建 item。滚轮缩放画布；鼠标悬停 item 后滚轮调整椭圆大小；拖动控制点调整形状和方向。选中 item 后可拖入或粘贴图片。",
+    hint: "双击或右键空白处新建 item。滚轮缩放；悬停项目后滚轮调整大小；拖动控制点调整形状。选中 item 后可拖入或粘贴图片。",
     emptyIntro: "还没有 intro。",
     emptyLinks: "还没有链接。",
     imageDrop: "上传、拖入，或复制图片后按 Cmd/Ctrl+V",
@@ -98,7 +98,7 @@ const copy = {
     editOn: "Exit edit",
     editOff: "Enter edit",
     add: "Add item here",
-    hint: "Right-click blank space to add an item. Scroll to zoom the map; hover an item and scroll to resize it; drag handles to reshape or rotate. Select an item to drop or paste an image.",
+    hint: "Double-click or right-click blank space to add item. Scroll to zoom; hover item and scroll to resize; drag handles to reshape. Select an item to drop or paste an image.",
     emptyIntro: "No intro yet.",
     emptyLinks: "No links yet.",
     imageDrop: "Upload, drop, or paste an image with Cmd/Ctrl+V",
@@ -435,7 +435,7 @@ function bindEvents() {
   canvas.addEventListener("pointercancel", onPointerUp);
   canvas.addEventListener("wheel", onWheel, { passive: false });
   canvas.addEventListener("contextmenu", onContextMenu);
-
+  canvas.addEventListener("dblclick", onContextMenu); 
   window.addEventListener("keydown", onKeyDown);
   window.addEventListener("paste", onPasteImage);
   window.addEventListener("beforeunload", (event) => {
@@ -913,9 +913,10 @@ function onWheel(event) {
   zoomAt(pointer.x, pointer.y, factor);
 }
 
-function onContextMenu(event) {
-  event.preventDefault();
+ffunction onContextMenu(event) {
+  event.preventDefault(); 
   if (!state.editMode) return;
+
   const pointer = getPointer(event);
   const world = screenToWorld(pointer.x, pointer.y);
   const item = findItemAt(world.x, world.y);
@@ -934,7 +935,6 @@ function onContextMenu(event) {
   contextMenu.style.top = `${event.clientY - rect.top}px`;
   contextMenu.hidden = false;
 }
-
 function onKeyDown(event) {
   if (event.key === "Escape") {
     hideContextMenu();
