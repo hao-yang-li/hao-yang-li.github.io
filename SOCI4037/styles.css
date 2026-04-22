@@ -369,6 +369,56 @@ button {
   box-shadow: 0 14px 34px rgba(23, 31, 58, 0.14);
 }
 
+.save-toast {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  z-index: 70;
+  transform: translateX(-50%);
+  min-width: 168px;
+  max-width: min(360px, calc(100% - 32px));
+  padding: 10px 14px;
+  border: 1px solid var(--edge);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 14px 34px rgba(23, 31, 58, 0.16);
+  color: #20242c;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  pointer-events: none;
+}
+
+.save-toast.saving::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 8px;
+  border: 2px solid rgba(83, 111, 186, 0.28);
+  border-top-color: var(--frame);
+  border-radius: 999px;
+  vertical-align: -1px;
+  animation: spin 0.78s linear infinite;
+}
+
+.save-toast.saved {
+  border-color: rgba(62, 146, 105, 0.35);
+  color: #236345;
+}
+
+.save-toast.error {
+  border-color: rgba(207, 121, 144, 0.45);
+  color: #9b153d;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .detail-card {
   position: absolute;
   z-index: 12;

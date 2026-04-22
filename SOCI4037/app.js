@@ -17,6 +17,7 @@ const floatingXAxis = document.getElementById("floatingXAxis");
 const floatingYAxis = document.getElementById("floatingYAxis");
 const loadingOverlay = document.getElementById("loadingOverlay");
 const loadingMessage = document.getElementById("loadingMessage");
+const saveToast = document.getElementById("saveToast");
 
 const controls = {
   fit: document.getElementById("fitButton"),
@@ -77,6 +78,12 @@ const copy = {
     newIntro: "在右侧编辑面板填写简介、图片和链接。",
     axisX: "x-axis: pro-status quo or anti-status quo",
     axisY: "y-axis: degree of political relevance",
+    loadingRemote: "正在拉取云端数据...",
+    savingRemote: "正在保存到云端...",
+    savingAuto: "正在自动保存...",
+    savedRemote: "已保存到云端",
+    savedLocal: "已保存在本地",
+    saveFailed: "保存失败，已保存在本地",
     quadrants: [
       "carnivalesque propaganda",
       "carnivalesque sociopolitical protest",
@@ -99,6 +106,12 @@ const copy = {
     newIntro: "Add intro, image, and links in the editor panel.",
     axisX: "x-axis: pro-status quo or anti-status quo",
     axisY: "y-axis: degree of political relevance",
+    loadingRemote: "Loading cloud data...",
+    savingRemote: "Saving to cloud...",
+    savingAuto: "Auto-saving...",
+    savedRemote: "Saved to cloud",
+    savedLocal: "Saved locally",
+    saveFailed: "Save failed. Kept locally.",
     quadrants: [
       "carnivalesque propaganda",
       "carnivalesque sociopolitical protest",
@@ -138,6 +151,7 @@ const state = {
   hasUnsavedRemoteChanges: false,
   ignoreRemoteUntil: 0,
   pendingUploads: 0,
+  saveToastTimer: null,
   viewAnimation: null,
   zoomAnimation: null,
   zoomTarget: null,
@@ -212,6 +226,18 @@ function normalizeItem(item, index) {
 }
 
 function save() {
+  saveLocalState();
+  if (!state.supabase) {
+    showSaveToast("saved", copy[state.language].savedLocal, 1800);
+    state.hasUnsavedRemoteChanges = false;
+    return;
+  }
+  state.hasUnsavedRemoteChanges = true;
+  state.ignoreRemoteUntil = Date.now() + 1800;
+  scheduleRemoteSave();
+}
+
+function saveLocalState() {
   localStorage.setItem(
     STORAGE_KEY,
     JSON.stringify({
@@ -220,13 +246,11 @@ function save() {
       language: state.language,
     })
   );
-  state.hasUnsavedRemoteChanges = true;
-  state.ignoreRemoteUntil = Date.now() + 1800;
-  scheduleRemoteSave();
 }
 
 function scheduleRemoteSave() {
   if (!state.supabase) return;
+  showSaveToast("saving", copy[state.language].savingAuto, 0);
   updateEditToggle();
   window.clearTimeout(state.remoteSaveTimer);
   state.remoteSavePromise = new Promise((resolve) => {
@@ -241,6 +265,7 @@ function scheduleRemoteSave() {
 
 async function saveRemoteMap() {
   if (!state.supabase) return;
+  const shouldNotify = state.hasUnsavedRemoteChanges || state.pendingUploads > 0;
   const updatedAt = Date.now();
   const payload = {
     id: SUPABASE_MAP_ID,
@@ -253,15 +278,21 @@ async function saveRemoteMap() {
     updated_at: new Date(updatedAt).toISOString(),
   };
   const { error } = await state.supabase.from(SUPABASE_TABLE).upsert(payload);
-  if (error) showRemoteError(`Supabase 保存失败：${error.message}`);
-  if (!error) state.hasUnsavedRemoteChanges = false;
+  if (error) {
+    showSaveToast("error", copy[state.language].saveFailed, 3600);
+    showRemoteError(`Supabase 保存失败：${error.message}`);
+  }
+  if (!error) {
+    state.hasUnsavedRemoteChanges = false;
+    if (shouldNotify) showSaveToast("saved", copy[state.language].savedRemote, 1800);
+  }
   updateEditToggle();
   return !error;
 }
 
 async function loadRemoteMap() {
   if (!state.supabase) return;
-  showLoadingOverlay("正在拉取云端数据...");
+  showLoadingOverlay(copy[state.language].loadingRemote);
   const { data, error } = await state.supabase
     .from(SUPABASE_TABLE)
     .select("data")
@@ -311,7 +342,6 @@ function subscribeRemoteMap() {
 
 function applyRemoteData(data) {
   state.items = data.items.map(normalizeItem);
-  state.language = data.language || state.language;
   state.imageCache.clear();
   state.items.forEach(cacheImage);
   updateLanguageUi();
@@ -335,10 +365,23 @@ function hideLoadingOverlay() {
   loadingOverlay.hidden = true;
 }
 
+function showSaveToast(type, message, timeout = 1800) {
+  saveToast.textContent = message;
+  saveToast.className = `save-toast ${type}`;
+  saveToast.hidden = false;
+  window.clearTimeout(state.saveToastTimer);
+  if (timeout > 0) {
+    state.saveToastTimer = window.setTimeout(() => {
+      saveToast.hidden = true;
+    }, timeout);
+  }
+}
+
 async function waitForPendingSync() {
   window.clearTimeout(state.remoteSaveTimer);
   state.remoteSaveTimer = null;
-  showLoadingOverlay("正在保存到云端...");
+  showLoadingOverlay(copy[state.language].savingRemote);
+  showSaveToast("saving", copy[state.language].savingAuto, 0);
   while (state.pendingUploads > 0) {
     await delay(120);
   }
@@ -350,6 +393,7 @@ async function waitForPendingSync() {
 
 async function saveCardWithOverlay() {
   if (!state.supabase || !state.hasUnsavedRemoteChanges) return;
+  showSaveToast("saving", copy[state.language].savingAuto, 0);
   await waitForPendingSync();
 }
 
@@ -410,7 +454,7 @@ function bindEvents() {
     state.language = state.language === "zh" ? "en" : "zh";
     updateLanguageUi();
     renderDetailCard();
-    save();
+    saveLocalState();
     closeSettings();
     draw();
   });
@@ -1187,6 +1231,7 @@ async function uploadImageFile(item, file) {
     return "";
   }
   state.pendingUploads += 1;
+  showSaveToast("saving", copy[state.language].savingAuto, 0);
   updateEditToggle();
   const safeName = sanitizeFileName(file.name || "pasted-image.png");
   const path = `items/${item.id}/${Date.now()}-${safeName}`;
