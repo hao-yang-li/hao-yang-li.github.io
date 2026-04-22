@@ -15,6 +15,8 @@ const titleHeading = document.querySelector(".title-block h1");
 const hint = document.getElementById("hint");
 const floatingXAxis = document.getElementById("floatingXAxis");
 const floatingYAxis = document.getElementById("floatingYAxis");
+const loadingOverlay = document.getElementById("loadingOverlay");
+const loadingMessage = document.getElementById("loadingMessage");
 
 const controls = {
   fit: document.getElementById("fitButton"),
@@ -131,8 +133,10 @@ const state = {
   supabase: null,
   remoteChannel: null,
   remoteSaveTimer: null,
+  remoteSavePromise: null,
   remoteErrorShown: false,
   ignoreRemoteUntil: 0,
+  pendingUploads: 0,
   viewAnimation: null,
   selectedId: null,
   hoverId: null,
@@ -152,6 +156,7 @@ const state = {
 
 function bootstrap() {
   initSupabase();
+  if (!state.supabase) hideLoadingOverlay();
   load();
   resizeCanvas();
   bindEvents();
@@ -171,9 +176,9 @@ function load() {
     const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_STORAGE_KEY);
     if (raw) {
       const data = JSON.parse(raw);
-      state.items = Array.isArray(data.items) ? data.items.map(normalizeItem) : starterItems;
-      state.view = data.view || state.view;
-      state.language = data.language || state.language;
+	      state.items = Array.isArray(data.items) ? data.items.map(normalizeItem) : starterItems;
+	      state.view = data.view || state.view;
+	      state.language = data.language || state.language;
     } else {
       state.items = starterItems;
     }
@@ -219,26 +224,32 @@ function save() {
 function scheduleRemoteSave() {
   if (!state.supabase) return;
   window.clearTimeout(state.remoteSaveTimer);
-  state.remoteSaveTimer = window.setTimeout(saveRemoteMap, 700);
+  state.remoteSavePromise = new Promise((resolve) => {
+    state.remoteSaveTimer = window.setTimeout(() => resolve(saveRemoteMap()), 700);
+  });
 }
 
 async function saveRemoteMap() {
   if (!state.supabase) return;
+  const updatedAt = Date.now();
   const payload = {
     id: SUPABASE_MAP_ID,
     data: {
       items: state.items,
       view: state.view,
       language: state.language,
+      updatedAt,
     },
-    updated_at: new Date().toISOString(),
+    updated_at: new Date(updatedAt).toISOString(),
   };
   const { error } = await state.supabase.from(SUPABASE_TABLE).upsert(payload);
   if (error) showRemoteError(`Supabase 保存失败：${error.message}`);
+  return !error;
 }
 
 async function loadRemoteMap() {
   if (!state.supabase) return;
+  showLoadingOverlay("正在拉取云端数据...");
   const { data, error } = await state.supabase
     .from(SUPABASE_TABLE)
     .select("data")
@@ -247,15 +258,18 @@ async function loadRemoteMap() {
 
   if (error) {
     showRemoteError(`Supabase 读取失败：${error.message}`);
+    hideLoadingOverlay();
     return;
   }
 
   if (!data?.data?.items) {
-    saveRemoteMap();
+    await saveRemoteMap();
+    hideLoadingOverlay();
     return;
   }
 
   applyRemoteData(data.data);
+  hideLoadingOverlay();
 }
 
 function subscribeRemoteMap() {
@@ -274,8 +288,8 @@ function subscribeRemoteMap() {
         if (Date.now() < state.ignoreRemoteUntil) return;
         if (state.editMode) return;
         if (state.viewAnimation) return;
-        const nextData = payload.new?.data;
-        if (nextData?.items) applyRemoteData(nextData);
+	const nextData = payload.new?.data;
+	if (nextData?.items) applyRemoteData(nextData);
       }
     )
     .subscribe((status) => {
@@ -298,6 +312,30 @@ function showRemoteError(message) {
   if (state.remoteErrorShown) return;
   state.remoteErrorShown = true;
   window.alert(message);
+}
+
+function showLoadingOverlay(message) {
+  loadingMessage.textContent = message;
+  loadingOverlay.hidden = false;
+}
+
+function hideLoadingOverlay() {
+  loadingOverlay.hidden = true;
+}
+
+async function waitForPendingSync() {
+  window.clearTimeout(state.remoteSaveTimer);
+  showLoadingOverlay("正在保存到云端...");
+  while (state.pendingUploads > 0) {
+    await delay(120);
+  }
+  if (state.remoteSavePromise) await state.remoteSavePromise;
+  await saveRemoteMap();
+  hideLoadingOverlay();
+}
+
+function delay(ms) {
+  return new Promise((resolve) => window.setTimeout(resolve, ms));
 }
 
 function bindEvents() {
@@ -1070,23 +1108,28 @@ async function uploadImageFile(item, file) {
     showRemoteError("Supabase 未连接，无法上传图片。");
     return "";
   }
+  state.pendingUploads += 1;
   const safeName = sanitizeFileName(file.name || "pasted-image.png");
   const path = `items/${item.id}/${Date.now()}-${safeName}`;
-  const { error } = await state.supabase.storage
-    .from(SUPABASE_IMAGE_BUCKET)
-    .upload(path, file, {
-      cacheControl: "31536000",
-      upsert: true,
-      contentType: file.type,
-    });
+  try {
+    const { error } = await state.supabase.storage
+      .from(SUPABASE_IMAGE_BUCKET)
+      .upload(path, file, {
+        cacheControl: "31536000",
+        upsert: true,
+        contentType: file.type,
+      });
 
-  if (error) {
-    showRemoteError(`Supabase 图片上传失败：${error.message}`);
-    return "";
+    if (error) {
+      showRemoteError(`Supabase 图片上传失败：${error.message}`);
+      return "";
+    }
+
+    const { data } = state.supabase.storage.from(SUPABASE_IMAGE_BUCKET).getPublicUrl(path);
+    return data.publicUrl || "";
+  } finally {
+    state.pendingUploads = Math.max(0, state.pendingUploads - 1);
   }
-
-  const { data } = state.supabase.storage.from(SUPABASE_IMAGE_BUCKET).getPublicUrl(path);
-  return data.publicUrl || "";
 }
 
 function sanitizeFileName(name) {
@@ -1245,12 +1288,15 @@ function closeSettings() {
   settingsButton.setAttribute("aria-expanded", "false");
 }
 
-function toggleEditMode() {
+async function toggleEditMode() {
   if (!state.editMode && !requestEditLogin()) return;
-  state.editMode = !state.editMode;
-  if (!state.editMode) {
+  if (state.editMode) {
+    await waitForPendingSync();
+    state.editMode = false;
     closeEditor();
     hideContextMenu();
+  } else {
+    state.editMode = true;
   }
   updateEditToggle();
   closeSettings();

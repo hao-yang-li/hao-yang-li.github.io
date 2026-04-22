@@ -34,5 +34,7 @@
 - 换电脑打开同一个 GitHub Pages 页面后，会自动读取 Supabase 上的共享数据和图片。
 - Supabase Realtime 会在浏览模式下接收别人保存的更新。
 - 如果 Supabase 还没配置好，页面会报错提示，不再把图片退回 base64 本地模式。
+- 进入页面会先拉取云端数据。远端和本地冲突时，以远端为准。
+- 退出编辑模式前会等待图片上传和地图数据保存完成。
 
 首次使用前，在 Supabase 项目的 SQL Editor 里运行 `supabase-setup.sql`。
