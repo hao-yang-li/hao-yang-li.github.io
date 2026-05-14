@@ -4,13 +4,13 @@ layout: homepage
 
 ## About Me
 
-I am an incoming **PhD student** in **Systems Engineering** at the **University of Virginia (UVA)**. Currently, I am a final-year undergraduate at Hong Kong Baptist University (HKBU), majoring in **Sociology** with a minor in **Computer Science**. My studies have provided rigorous training in sociological theory and research methods, complemented by extensive coursework in computer science with a focus on **Artificial Intelligence (AI)**.
+I am an incoming **Ph.D. student** in **Systems Engineering** at the **University of Virginia (UVA)**. Currently, I am a final-year undergraduate at Hong Kong Baptist University (HKBU), majoring in **Sociology** with a minor in **Computer Science**. My studies have provided rigorous training in sociological theory and research methods, complemented by extensive coursework in computer science with a focus on **Artificial Intelligence (AI)**.
 
 Driven by a strong conviction in the transformative potential of **interdisciplinary research**, I am passionate about exploring the convergence of social science and AI in the era of big data and intelligent technologies. I am particularly interested in how these **sociological theories-guided LLM agents** can enable novel insights into **social simulations** and complex societal dynamics that both traditional data-driven machine learning and social science research cannot achieve.
 
 I am currently supervised by <a href="https://hongru94.github.io/" target="_blank" rel="noopener noreferrer">Prof. Hongru Du</a> at <a href="https://engineering.virginia.edu/labs-groups/du-lab" target="_blank" rel="noopener noreferrer">Du Lab</a>, <a href="https://engineering.virginia.edu/sie" target="_blank" rel="noopener noreferrer">Department of Systems and Information Engineering, University of Virginia</a> and collaborating with him to focus on the research of **theory-guided LLM agent-based modeling** and exploring its applications in domains including modeling human bahavior and public health. Priviously, I also serve as a **Research Intern** at Tsinghua University’s <a href="https://fi.ee.tsinghua.edu.cn/" target="_blank" rel="noopener noreferrer">Future Intelligence Lab</a> under the supervision of <a href="https://fenglixu.github.io/" target="_blank" rel="noopener noreferrer">Prof. Fengli Xu</a> and collaborated with <a href="https://sociology.uchicago.edu/directory/james-evans" target="_blank" rel="noopener noreferrer">Prof. James Evans</a> at the <a href="https://knowledgelab.org/" target="_blank" rel="noopener noreferrer">Knowledge Lab</a>, University of Chicago, where I focus on **designing LLM-driven agents in physical environment and AI scientists in complex context**. <!-- I also worked as a **Research Assistant** to explore LLM Agents that **simulate urban policy planner and human decision-making behavior** under the supervision of <a href="https://sai.cuhk.edu.cn/en/teacher/154" target="_blank" rel="noopener noreferrer">Prof. Zhanzhan Zhao</a>,  Assistant Professor, <a href="https://sai.cuhk.edu.cn/en" target="_blank" rel="noopener noreferrer">School of School of Artificial Intelligence</a>, <a href="https://www.cuhk.edu.cn/en" target="_blank" rel="noopener noreferrer">The Chinese University of Hong Kong, Shenzhen</a>.-->
 
-For more details, please see my <a href="assets/Haoyang_Li_CV_latest.pdf" target="_blank" rel="noopener noreferrer">CV</a> _(last updated 13 May, 2026)_.
+For more details, please see my <a href="assets/Haoyang_Li_CV_latest.pdf" target="_blank" rel="noopener noreferrer">CV</a> _(last updated 14 May, 2026)_.
 
 <span style="color:#E4002B; font-weight: bold;">If you are interested in my work or have potential ideas to explore together, please feel free to email me. I would be happy to discuss further :-)</span> 
 
@@ -24,7 +24,7 @@ For more details, please see my <a href="assets/Haoyang_Li_CV_latest.pdf" target
 - **Social Stratification**: Social capital, Cultural reproduction
 -->
 
-## Research Experiences
+## Research Experience
 <style>
   ul ul {
     margin-bottom: 0px !important;
