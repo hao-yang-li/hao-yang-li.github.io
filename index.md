@@ -4,7 +4,7 @@ layout: homepage
 
 ## About Me
 
-I am an incoming **Ph.D. student** in **Systems Engineering** at the **University of Virginia (UVA)**. Currently, I am a final-year undergraduate at Hong Kong Baptist University (HKBU), majoring in **Sociology** with a minor in **Computer Science**. My studies have provided rigorous training in sociological theory and research methods, complemented by extensive coursework in computer science with a focus on **Artificial Intelligence (AI)**.
+I am an incoming **Ph.D. student** in **Systems Engineering** at the **University of Virginia (UVA)**. I received my Bachelor's degree from Hong Kong Baptist University (HKBU) with First Class Honors, majoring in **Sociology** with a minor in **Computer Science**. My studies have provided me with rigorous training in sociological theory and research methods, complemented by extensive coursework in computer science with a focus on **Artificial Intelligence (AI)**.
 
 Driven by a strong conviction in the transformative potential of **interdisciplinary research**, I am passionate about exploring the convergence of social science and AI in the era of big data and intelligent technologies. I am particularly interested in how these **sociological theories-guided LLM agents** can enable novel insights into **social simulations** and complex societal dynamics that both traditional data-driven machine learning and social science research cannot achieve.
 
