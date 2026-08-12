@@ -43,7 +43,7 @@ For more details, please see my <a href="assets/Haoyang_Li_CV_latest.pdf" target
     content: "";
     position: absolute;
 
-    left: -0.50em;
+    left: -0.75em;
 
 
     top: 0.85em;
