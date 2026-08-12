@@ -126,23 +126,15 @@ For more details, please see my <a href="assets/Haoyang_Li_CV_latest.pdf" target
 -->
 
 ## Research Experience
-
-<ul class="uva-progress">
-
-  <li>
-    <strong>Graduate Research Assistant</strong>,
-    <em>2026.08 - Current</em>,
-    <a href="https://engineering.virginia.edu/labs-groups/du-lab"
-       target="_blank" rel="noopener noreferrer">Du Lab</a>,
-    <a hre- **Graduate Research Assistant**, _2026.08 - Current_, <a href="https://engineering.virginia.edu/labs-groups/du-lab" target="_blank" rel="noopener noreferrer">Du Lab</a>, <a href="https://engineering.virginia.edu/sie" target="_blank" rel="noopener noreferrer">University of Virginia</a>
-- **Research Intern**, _2025.07 - 2026.08_
+- **Graduate Research Assistant**, _2026.08 - Current_, <a href="https://engineering.virginia.edu/labs-groups/du-lab" target="_blank" rel="noopener noreferrer">Du Lab</a>, <a href="https://engineering.virginia.edu/sie" target="_blank" rel="noopener noreferrer">University of Virginia</a>
+- **Research Intern**, _2025.07 - 2026.07_
     - Supervised by <a href="https://hongru94.github.io/" target="_blank" rel="noopener noreferrer">Prof. Hongru Du</a>
     - _Research Focus_: AI for Science, Modeling Human Behavior through LLM Agents
-- **Research Intern**, _2025.10 - 2026.08_,  <a href="https://knowledgelab.org/" target="_blank" rel="noopener noreferrer">Knowledge Lab, University of Chicago</a>
-    - Supervised by  <a href="https://sociology.uchicago.edu/directory/james-evans" target="_blank" rel="noopener noreferrer">Prof. James Evans</a>
+- **Research Intern**, _2025.10 - 2026.08_, <a href="https://knowledgelab.org/" target="_blank" rel="noopener noreferrer">Knowledge Lab, University of Chicago</a>
+    - Supervised by <a href="https://sociology.uchicago.edu/directory/james-evans" target="_blank" rel="noopener noreferrer">Prof. James Evans</a>
     - _Research Focus_: AI Scientists for Market Allocation
-- **Research Intern**, _2025.03 - 2026.08_,  <a href="https://fi.ee.tsinghua.edu.cn/" target="_blank" rel="noopener noreferrer">Future Intelligence Lab, Tsinghua University</a>
-    - Supervised by  <a href="https://fenglixu.github.io/" target="_blank" rel="noopener noreferrer">Prof. Fengli Xu</a>
+- **Research Intern**, _2025.03 - 2026.08_, <a href="https://fi.ee.tsinghua.edu.cn/" target="_blank" rel="noopener noreferrer">Future Intelligence Lab, Tsinghua University</a>
+    - Supervised by <a href="https://fenglixu.github.io/" target="_blank" rel="noopener noreferrer">Prof. Fengli Xu</a>
     - _Research Focus_: LLM Agent, Social Simulation
 - **Research Assistant**, _2025.07 - 2025.12_, <a href="https://sai.cuhk.edu.cn/en" target="_blank" rel="noopener noreferrer">School of Artificial Intelligence, The Chinese University of Hong Kong, Shenzhen</a>
     - Supervised by <a href="https://sai.cuhk.edu.cn/en/teacher/154" target="_blank" rel="noopener noreferrer">Prof. Zhanzhan Zhao</a>
