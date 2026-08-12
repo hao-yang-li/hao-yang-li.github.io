@@ -30,78 +30,52 @@ For more details, please see my <a href="assets/Haoyang_Li_CV_latest.pdf" target
     margin-bottom: 0px !important;
   }
 
-  /* UVA uses the site's normal list indentation */
-  .uva-timeline {
-    margin-top: 0;
-    margin-bottom: 0.45em;
-  }
-
-  .uva-role-stack {
+  .uva-progress {
     position: relative;
-    list-style: none;
-    margin-top: 0;
-    margin-bottom: 0.2em;
+    margin-bottom: 20px;
   }
 
-  .uva-role {
+  .uva-progress > li {
     position: relative;
-    margin: 0;
-    padding: 0;
-    line-height: 1.35;
   }
 
-  /* custom dot at the same place as a normal list marker */
-  .uva-role::before {
+  .uva-progress > li:first-child::after {
     content: "";
     position: absolute;
-    left: -1.15em;
-    top: 0.68em;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: #000;
-    transform: translate(-50%, -50%);
-    z-index: 2;
-  }
 
-  /* gray line with a little gap before each dot */
-  .uva-role-stack::after {
-    content: "";
-    position: absolute;
-    left: -1.15em;
-    top: calc(0.68em + 4px);
-    bottom: calc(0.68em + 4px);
+    left: -1.02em;
+
+    top: 0.9em;
+    bottom: -0.9em;
+
     width: 1px;
     background: #b5b5b5;
-    transform: translateX(-50%);
+  }
+
+  .uva-progress > li:first-child {
+    margin-bottom: 0;
   }
 
   .uva-details {
     margin-top: 0.2em;
-    margin-bottom: 0.35em;
+    margin-bottom: 0;
   }
 </style>
 
-<ul class="uva-timeline">
-  <li style="list-style: none;">
+<ul class="uva-progress">
 
-    <div class="uva-role-stack">
+  <li>
+    <strong>Graduate Research Assistant</strong>,
+    <em>2026.08 - Current</em>,
+    <a href="https://engineering.virginia.edu/labs-groups/du-lab"
+       target="_blank" rel="noopener noreferrer">Du Lab</a>,
+    <a href="https://engineering.virginia.edu/sie"
+       target="_blank" rel="noopener noreferrer">University of Virginia</a>
+  </li>
 
-      <div class="uva-role">
-        <strong>Graduate Research Assistant</strong>,
-        <em>2026.08 - Current</em>,
-        <a href="https://engineering.virginia.edu/labs-groups/du-lab"
-           target="_blank" rel="noopener noreferrer">Du Lab</a>,
-        <a href="https://engineering.virginia.edu/sie"
-           target="_blank" rel="noopener noreferrer">University of Virginia</a>
-      </div>
-
-      <div class="uva-role">
-        <strong>Research Intern</strong>,
-        <em>2025.07 - 2026.07</em>
-      </div>
-
-    </div>
+  <li>
+    <strong>Research Intern</strong>,
+    <em>2025.07 - 2026.07</em>
 
     <ul class="uva-details">
       <li>
@@ -114,8 +88,8 @@ For more details, please see my <a href="assets/Haoyang_Li_CV_latest.pdf" target
         Modeling Human Behavior through LLM Agents
       </li>
     </ul>
-
   </li>
+
 </ul>
 - **Research Intern**, _2025.10 - 2026.08_,  <a href="https://knowledgelab.org/" target="_blank" rel="noopener noreferrer">Knowledge Lab, University of Chicago</a>
     - Supervised by  <a href="https://sociology.uchicago.edu/directory/james-evans" target="_blank" rel="noopener noreferrer">Prof. James Evans</a>
