@@ -29,10 +29,82 @@ For more details, please see my <a href="assets/Haoyang_Li_CV_latest.pdf" target
   ul ul {
     margin-bottom: 0px !important;
   }
+
+  .uva-timeline {
+    margin: 0 0 0.4em 0;
+    padding-left: 1.25em;
+  }
+
+  .uva-role {
+    position: relative;
+    line-height: 1.5;
+    padding-bottom: 0.18em;
+  }
+
+  .uva-role:last-child {
+    padding-bottom: 0;
+  }
+
+  .uva-role::before {
+    content: "";
+    position: absolute;
+    left: -0.92em;
+    top: 0.72em;
+    width: 5px;
+    height: 5px;
+    background: #000;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+  }
+
+
+  .uva-role:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: -0.92em;
+    top: 0.72em;
+    bottom: -0.72em;
+    width: 1px;
+    background: #000;
+    transform: translateX(-50%);
+    z-index: 1;
+  }
+
+  .uva-details {
+    margin-top: 0.15em;
+    margin-bottom: 0.15em;
+  }
+
+  @media screen and (max-width: 480px) {
+    .uva-timeline {
+      padding-left: 1.05em;
+    }
+
+    .uva-role::before,
+    .uva-role:not(:last-child)::after {
+      left: -0.78em;
+    }
+  }
 </style>
-- **Research Intern**, _2025.07 - Current_, <a href="https://engineering.virginia.edu/labs-groups/du-lab" target="_blank" rel="noopener noreferrer">Du Lab</a>, <a href="https://engineering.virginia.edu/sie" target="_blank" rel="noopener noreferrer">University of Virginia</a>
-    - Supervised by <a href="https://hongru94.github.io/" target="_blank" rel="noopener noreferrer">Prof. Hongru Du</a>
-    - _Research Focus_: AI for Science, Modeling Human Behavior through LLM Agents 
+<div class="uva-timeline">
+
+  <div class="uva-role">
+    <strong>Graduate Research Assistant</strong>, <em>2026.08 - Current</em>,
+    <a href="https://engineering.virginia.edu/labs-groups/du-lab" target="_blank" rel="noopener noreferrer">Du Lab</a>,
+    <a href="https://engineering.virginia.edu/sie" target="_blank" rel="noopener noreferrer">University of Virginia</a>
+
+    <ul class="uva-details">
+      <li>Supervised by <a href="https://hongru94.github.io/" target="_blank" rel="noopener noreferrer">Prof. Hongru Du</a></li>
+      <li><em>Research Focus</em>: AI for Science, Modeling Human Behavior through LLM Agents</li>
+    </ul>
+  </div>
+
+  <div class="uva-role">
+    <strong>Research Intern</strong>, <em>2025.07 - 2026.08</em>
+  </div>
+
+</div>
 - **Research Intern**, _2025.10 - 2026.08_,  <a href="https://knowledgelab.org/" target="_blank" rel="noopener noreferrer">Knowledge Lab, University of Chicago</a>
     - Supervised by  <a href="https://sociology.uchicago.edu/directory/james-evans" target="_blank" rel="noopener noreferrer">Prof. James Evans</a>
     - _Research Focus_: AI Scientists for Market Allocation
