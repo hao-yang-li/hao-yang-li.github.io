@@ -30,79 +30,97 @@ For more details, please see my <a href="assets/Haoyang_Li_CV_latest.pdf" target
     margin-bottom: 0px !important;
   }
 
+  /* UVA progression */
   .uva-timeline {
-    margin: 0 0 0.4em 0;
-    padding-left: 1.25em;
+    margin-left: 2em;
+    margin-bottom: 0.45em;
+  }
+
+  .uva-role-stack {
+    position: relative;
+    margin: 0 0 0.28em 0;
+    padding: 0;
   }
 
   .uva-role {
     position: relative;
-    line-height: 1.5;
-    padding-bottom: 0.18em;
-  }
-
-  .uva-role:last-child {
-    padding-bottom: 0;
+    margin: 0;
+    padding: 0;
+    line-height: 1.35;
   }
 
   .uva-role::before {
     content: "";
     position: absolute;
-    left: -0.92em;
-    top: 0.72em;
+    left: -1.08em;
+    top: 0.68em;
+
     width: 5px;
     height: 5px;
-    background: #000;
     border-radius: 50%;
+    background: #000;
+
     transform: translate(-50%, -50%);
     z-index: 2;
   }
 
-
-  .uva-role:not(:last-child)::after {
+  .uva-role-stack::after {
     content: "";
     position: absolute;
-    left: -0.92em;
-    top: 0.72em;
-    bottom: -0.72em;
+    left: -1.08em;
+
+    top: calc(0.68em + 4px);
+    bottom: calc(0.68em + 4px);
+
     width: 1px;
-    background: #000;
+    background: #b8b8b8;
+
     transform: translateX(-50%);
     z-index: 1;
   }
 
+
   .uva-details {
-    margin-top: 0.15em;
-    margin-bottom: 0.15em;
+    margin-top: 0.2em;
+    margin-bottom: 0.35em;
   }
 
   @media screen and (max-width: 480px) {
     .uva-timeline {
-      padding-left: 1.05em;
+      margin-left: 2em;
     }
 
-    .uva-role::before,
-    .uva-role:not(:last-child)::after {
-      left: -0.78em;
+    .uva-role {
+      line-height: 1.35;
     }
   }
 </style>
+
 <div class="uva-timeline">
 
-  <div class="uva-role">
-    <strong>Graduate Research Assistant</strong>, <em>2026.08 - Current</em>,
-    <a href="https://engineering.virginia.edu/labs-groups/du-lab" target="_blank" rel="noopener noreferrer">Du Lab</a>,
-    <a href="https://engineering.virginia.edu/sie" target="_blank" rel="noopener noreferrer">University of Virginia</a>
+  <div class="uva-role-stack">
 
-    <ul class="uva-details">
-      <li>Supervised by <a href="https://hongru94.github.io/" target="_blank" rel="noopener noreferrer">Prof. Hongru Du</a></li>
-      <li><em>Research Focus</em>: AI for Science, Modeling Human Behavior through LLM Agents</li>
-    </ul>
+    <div class="uva-role">
+      <strong>Graduate Research Assistant</strong>, <em>2026.08 - Current</em>,
+      <a href="https://engineering.virginia.edu/labs-groups/du-lab" target="_blank" rel="noopener noreferrer">Du Lab</a>,
+      <a href="https://engineering.virginia.edu/sie" target="_blank" rel="noopener noreferrer">University of Virginia</a>
+    </div>
+
+    <div class="uva-role">
+      <strong>Research Intern</strong>, <em>2025.07 - 2026.07</em>
+    </div>
+
   </div>
 
-  <div class="uva-role">
-    <strong>Research Intern</strong>, <em>2025.07 - 2026.08</em>
-  </div>
+  <ul class="uva-details">
+    <li>
+      Supervised by
+      <a href="https://hongru94.github.io/" target="_blank" rel="noopener noreferrer">Prof. Hongru Du</a>
+    </li>
+    <li>
+      <em>Research Focus</em>: AI for Science, Modeling Human Behavior through LLM Agents
+    </li>
+  </ul>
 
 </div>
 - **Research Intern**, _2025.10 - 2026.08_,  <a href="https://knowledgelab.org/" target="_blank" rel="noopener noreferrer">Knowledge Lab, University of Chicago</a>
