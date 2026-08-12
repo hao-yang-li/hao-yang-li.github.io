@@ -30,16 +30,17 @@ For more details, please see my <a href="assets/Haoyang_Li_CV_latest.pdf" target
     margin-bottom: 0px !important;
   }
 
-  /* UVA progression */
+  /* UVA uses the site's normal list indentation */
   .uva-timeline {
-    margin-left: 2em;
+    margin-top: 0;
     margin-bottom: 0.45em;
   }
 
   .uva-role-stack {
     position: relative;
-    margin: 0 0 0.28em 0;
-    padding: 0;
+    list-style: none;
+    margin-top: 0;
+    margin-bottom: 0.2em;
   }
 
   .uva-role {
@@ -49,80 +50,73 @@ For more details, please see my <a href="assets/Haoyang_Li_CV_latest.pdf" target
     line-height: 1.35;
   }
 
+  /* custom dot at the same place as a normal list marker */
   .uva-role::before {
     content: "";
     position: absolute;
-    left: -1.08em;
+    left: -1.15em;
     top: 0.68em;
-
     width: 5px;
     height: 5px;
     border-radius: 50%;
     background: #000;
-
     transform: translate(-50%, -50%);
     z-index: 2;
   }
 
+  /* gray line with a little gap before each dot */
   .uva-role-stack::after {
     content: "";
     position: absolute;
-    left: -1.08em;
-
+    left: -1.15em;
     top: calc(0.68em + 4px);
     bottom: calc(0.68em + 4px);
-
     width: 1px;
-    background: #b8b8b8;
-
+    background: #b5b5b5;
     transform: translateX(-50%);
-    z-index: 1;
   }
-
 
   .uva-details {
     margin-top: 0.2em;
     margin-bottom: 0.35em;
   }
-
-  @media screen and (max-width: 480px) {
-    .uva-timeline {
-      margin-left: 2em;
-    }
-
-    .uva-role {
-      line-height: 1.35;
-    }
-  }
 </style>
 
-<div class="uva-timeline">
+<ul class="uva-timeline">
+  <li style="list-style: none;">
 
-  <div class="uva-role-stack">
+    <div class="uva-role-stack">
 
-    <div class="uva-role">
-      <strong>Graduate Research Assistant</strong>, <em>2026.08 - Current</em>,
-      <a href="https://engineering.virginia.edu/labs-groups/du-lab" target="_blank" rel="noopener noreferrer">Du Lab</a>,
-      <a href="https://engineering.virginia.edu/sie" target="_blank" rel="noopener noreferrer">University of Virginia</a>
+      <div class="uva-role">
+        <strong>Graduate Research Assistant</strong>,
+        <em>2026.08 - Current</em>,
+        <a href="https://engineering.virginia.edu/labs-groups/du-lab"
+           target="_blank" rel="noopener noreferrer">Du Lab</a>,
+        <a href="https://engineering.virginia.edu/sie"
+           target="_blank" rel="noopener noreferrer">University of Virginia</a>
+      </div>
+
+      <div class="uva-role">
+        <strong>Research Intern</strong>,
+        <em>2025.07 - 2026.07</em>
+      </div>
+
     </div>
 
-    <div class="uva-role">
-      <strong>Research Intern</strong>, <em>2025.07 - 2026.07</em>
-    </div>
+    <ul class="uva-details">
+      <li>
+        Supervised by
+        <a href="https://hongru94.github.io/"
+           target="_blank" rel="noopener noreferrer">Prof. Hongru Du</a>
+      </li>
+      <li>
+        <em>Research Focus</em>: AI for Science,
+        Modeling Human Behavior through LLM Agents
+      </li>
+    </ul>
 
-  </div>
-
-  <ul class="uva-details">
-    <li>
-      Supervised by
-      <a href="https://hongru94.github.io/" target="_blank" rel="noopener noreferrer">Prof. Hongru Du</a>
-    </li>
-    <li>
-      <em>Research Focus</em>: AI for Science, Modeling Human Behavior through LLM Agents
-    </li>
-  </ul>
-
-</div>
+  </li>
+</ul>
 - **Research Intern**, _2025.10 - 2026.08_,  <a href="https://knowledgelab.org/" target="_blank" rel="noopener noreferrer">Knowledge Lab, University of Chicago</a>
     - Supervised by  <a href="https://sociology.uchicago.edu/directory/james-evans" target="_blank" rel="noopener noreferrer">Prof. James Evans</a>
     - _Research Focus_: AI Scientists for Market Allocation
