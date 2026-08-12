@@ -141,12 +141,14 @@ For more details, please see my <a href="assets/Haoyang_Li_CV_latest.pdf" target
     - _Research Focus_: LLM and Game Theory
 
 ## News
+- **[Aug 2026]** I arrived in Charlottesville!
 
+<!--
 - **[Feb. 2026]** A **first-authored** paper advised by <a href="https://hongru94.github.io/" target="_blank" rel="noopener noreferrer">Prof. Hongru Du</a> focusing on **Modeling Human Mobility Using LLM Agent** is avilable on <a href="https://www.researchsquare.com/article/rs-8902418/v1" target="_blank" rel="noopener noreferrer">Research Square</a>.
 - **[Nov. 2025]** A **co-first-authored** ongoing project focusing on **AI Scientists on Market Mechanisms** is presented as a poster at <a href="https://icais.ai/" target="_blank" rel="noopener noreferrer">ICAIS 2025 (The 1st International Conference on AI Scientists)</a> \[<a href="https://hao-yang-li.github.io/assets/files/ai_market_poster.pdf" target="_blank" rel="noopener noreferrer">View Poster</a>\]
 - **[Jul. 2025]** Joined as a **research intern** in  <a href="https://hongru94.github.io/" target="_blank" rel="noopener noreferrer">Prof. Hongru Du</a>, <a href="https://engineering.virginia.edu/sie" target="_blank" rel="noopener noreferrer">Department of Systems and Information Engineering, University of Virginia</a>'s research group, focusing on **LLM agent-based modeling**.
 - **[Jun. 2025]** A coauthored paper (under review) focused on **LLM agents and crime simulation** is available on <a href="https://arxiv.org/abs/2506.05981" target="_blank" rel="noopener noreferrer">arXiv:2506.05981</a>.
-- **[Mar. 2025]** Joined <a href="https://fi.ee.tsinghua.edu.cn/" target="_blank" rel="noopener noreferrer">Future Intelligence Lab, Tsinghua University</a> as a **research intern**.
+- **[Mar. 2025]** Joined <a href="https://fi.ee.tsinghua.edu.cn/" target="_blank" rel="noopener noreferrer">Future Intelligence Lab, Tsinghua University</a> as a **research intern**.-->
 
 {% include_relative _includes/publications.md %}
 
