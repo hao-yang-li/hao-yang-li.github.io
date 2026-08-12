@@ -14,6 +14,107 @@ For more details, please see my <a href="assets/Haoyang_Li_CV_latest.pdf" target
 
 <span style="color:#E4002B; font-weight: bold;">If you are interested in my work or have potential ideas to explore together, please feel free to email me. I would be happy to discuss further :-)</span> 
 
+<style>
+/* ===== Unified bullets: Research Interests / Experience / News ===== */
+
+:is(#research-interests, #research-experience, #news) + ul {
+  --bullet-x: -1.28em;
+  --bullet-y: 0.75em;
+  --bullet-size: 0.38em;
+
+  list-style: none;
+  padding-left: 2.5em;
+}
+
+/* Top-level items */
+:is(#research-interests, #research-experience, #news) + ul > li {
+  position: relative;
+}
+
+/* Filled top-level bullet */
+:is(#research-interests, #research-experience, #news) + ul > li::before {
+  content: "";
+  position: absolute;
+
+  left: var(--bullet-x);
+  top: var(--bullet-y);
+
+  width: var(--bullet-size);
+  height: var(--bullet-size);
+
+  border-radius: 50%;
+  background: currentColor;
+
+  transform: translate(-50%, -50%);
+}
+
+/* Nested lists */
+:is(#research-interests, #research-experience, #news) + ul ul {
+  list-style: none;
+  padding-left: 2.5em;
+  margin-bottom: 0 !important;
+}
+
+:is(#research-interests, #research-experience, #news) + ul ul > li {
+  position: relative;
+}
+
+/* Hollow nested bullet */
+:is(#research-interests, #research-experience, #news) + ul ul > li::before {
+  content: "";
+  position: absolute;
+
+  left: -1.28em;
+  top: 0.75em;
+
+  width: 0.32em;
+  height: 0.32em;
+
+  box-sizing: border-box;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  background: transparent;
+
+  transform: translate(-50%, -50%);
+}
+
+/* ===== UVA role progression ===== */
+
+/* GRA and Intern stay close */
+#research-experience + ul > li:first-child {
+  margin-bottom: 0;
+}
+
+/* Line from GRA bullet to Intern bullet */
+#research-experience + ul > li:first-child::after {
+  content: "";
+  position: absolute;
+
+  /* EXACTLY the same x coordinate as the bullet */
+  left: var(--bullet-x);
+
+  /* tiny gaps at the two dots */
+  top: 0.96em;
+  bottom: -0.54em;
+
+  width: 1px;
+  background: #b5b5b5;
+
+  transform: translateX(-50%);
+}
+
+/* Space after the UVA block */
+#research-experience + ul > li:nth-child(2) {
+  margin-bottom: 0.75em;
+}
+
+@media (prefers-color-scheme: dark) {
+  #research-experience + ul > li:first-child::after {
+    background: #777;
+  }
+}
+</style>
+
 ## Research Interests
 
 - **AI for Science & LLM Agents**: Sociological theory + LLM agents, LLM-based multi-agent systems, LLM for social simulation, AI for Science
@@ -25,44 +126,6 @@ For more details, please see my <a href="assets/Haoyang_Li_CV_latest.pdf" target
 -->
 
 ## Research Experience
-<style>
-  ul ul {
-    margin-bottom: 0px !important;
-  }
-
-  .uva-progress {
-    position: relative;
-    margin-bottom: 20px;
-  }
-
-  .uva-progress > li {
-    position: relative;
-  }
-
-  .uva-progress > li:first-child::after {
-    content: "";
-    position: absolute;
-
-    left: -0.56em;
-
-
-    top: 0.85em;
-    bottom: -0.85em;
-
-
-    width: 1px;
-    background: #b5b5b5;
-  }
-
-  .uva-progress > li:first-child {
-    margin-bottom: 0;
-  }
-
-  .uva-details {
-    margin-top: 0.2em;
-    margin-bottom: 0;
-  }
-</style>
 
 <ul class="uva-progress">
 
@@ -71,28 +134,10 @@ For more details, please see my <a href="assets/Haoyang_Li_CV_latest.pdf" target
     <em>2026.08 - Current</em>,
     <a href="https://engineering.virginia.edu/labs-groups/du-lab"
        target="_blank" rel="noopener noreferrer">Du Lab</a>,
-    <a href="https://engineering.virginia.edu/sie"
-       target="_blank" rel="noopener noreferrer">University of Virginia</a>
-  </li>
-
-  <li>
-    <strong>Research Intern</strong>,
-    <em>2025.07 - 2026.07</em>
-
-    <ul class="uva-details">
-      <li>
-        Supervised by
-        <a href="https://hongru94.github.io/"
-           target="_blank" rel="noopener noreferrer">Prof. Hongru Du</a>
-      </li>
-      <li>
-        <em>Research Focus</em>: AI for Science,
-        Modeling Human Behavior through LLM Agents
-      </li>
-    </ul>
-  </li>
-
-</ul>
+    <a hre- **Graduate Research Assistant**, _2026.08 - Current_, <a href="https://engineering.virginia.edu/labs-groups/du-lab" target="_blank" rel="noopener noreferrer">Du Lab</a>, <a href="https://engineering.virginia.edu/sie" target="_blank" rel="noopener noreferrer">University of Virginia</a>
+- **Research Intern**, _2025.07 - 2026.08_
+    - Supervised by <a href="https://hongru94.github.io/" target="_blank" rel="noopener noreferrer">Prof. Hongru Du</a>
+    - _Research Focus_: AI for Science, Modeling Human Behavior through LLM Agents
 - **Research Intern**, _2025.10 - 2026.08_,  <a href="https://knowledgelab.org/" target="_blank" rel="noopener noreferrer">Knowledge Lab, University of Chicago</a>
     - Supervised by  <a href="https://sociology.uchicago.edu/directory/james-evans" target="_blank" rel="noopener noreferrer">Prof. James Evans</a>
     - _Research Focus_: AI Scientists for Market Allocation
