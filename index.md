@@ -141,6 +141,8 @@ For more details, please see my <a href="assets/Haoyang_Li_CV_latest.pdf" target
     - _Research Focus_: LLM and Game Theory
 
 ## News
+
+- **[Nov. 2026]** I presented our work, **[Theory-Informed Generative Agents for Modeling Human Mobility](assets/files/Informs%202026_TIMA_Haoyang%20Li.pdf)**, at the [2026 INFORMS Annual Meeting](https://meetings.informs.org/wordpress/annual/) in San Francisco! It was also my first time visiting San Francisco, and I also visit **Stanford University** and **UC Berkeley**!
 - **[Aug 2026]** I arrived in Charlottesville!
 
 <!--
